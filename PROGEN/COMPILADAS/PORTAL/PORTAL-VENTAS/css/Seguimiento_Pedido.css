@@ -1,0 +1,52 @@
+html {
+    min-height: 100%;
+    position: relative;
+}
+
+body {
+    margin: 0;
+    margin-bottom: 58px;
+}
+
+nav {
+    background-color: rgba(224, 224, 224, 0.688);
+    border-bottom: 2px solid #d0d0d0;
+}
+
+#card-header{
+    background-color: #0C9ABE;
+}
+
+#card-header-titulo{
+    color: white;
+}
+
+#divTitulo1 {
+    border: solid 0.1em transparent;
+    border-bottom-color: #0D729C;
+}
+
+#divTitulo1, h4 {
+    color: black;
+    font-family: 'Raleway', sans-serif;
+}
+
+#divTitulo1, h4, a{
+    text-decoration: none;
+}
+
+#check{
+    margin-right: 10px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    background-color: #0D729C;
+}
+
+#logo_footer {
+    margin-left: 5px;
+}

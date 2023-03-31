@@ -1,0 +1,89 @@
+
+nav {
+    background-color: rgba(224, 224, 224, 0.688);
+    border-bottom: 2px solid #d0d0d0;
+}
+
+#divTitulo1 {
+    border: solid 0.1em transparent;
+    border-bottom-color: #0D729C;
+}
+
+#divTitulo1, h4 {
+    color: black;
+    font-family: 'Raleway', sans-serif;
+}
+
+#divTitulo1, h4, a{
+    text-decoration: none;
+}
+
+#divTitulo2{
+    background-color: #0D729C;
+}
+
+#divTitulo2, h5{
+    color: white;
+}
+
+th{
+    text-align: center;
+}
+
+#button, #buttonImportar {
+    background-color: #30bb37;
+    color: white;
+    border-color: rgb(51, 160, 37);
+    transition: transform .5s;
+}
+
+#divTabla{
+    overflow-x: scroll;
+}
+
+#tablaprueba{
+    width: 100%;
+}
+
+#Titulo{
+    padding-top: 6px;
+}
+
+@media screen and (max-width: 320px) {
+    #tablaprueba {
+      display: block;
+      overflow-x: auto;
+    }
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+
+
+#coverScreenshop {
+    display: block;
+    visibility: visible;
+    position: absolute;
+    z-index: 999;
+    top: 0px;
+    left: 0px;
+    width: 105%;
+    height: 105%;
+    background-color:white;
+    vertical-align:bottom;
+    padding-top: 10%; 
+    filter: alpha(opacity=75); 
+    opacity: 0.75; 
+    font-size:large;
+    color:blue;
+    font-style:italic;
+    font-weight:400;
+    background-image: url("../img/loading.gif");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}

@@ -1,0 +1,42 @@
+html {
+    min-height: 100%;
+    position: relative;
+}
+
+body {
+    margin: 0;
+    margin-bottom: 58px;
+}
+
+nav {
+    background-color: rgba(224, 224, 224, 0.688);
+    border-bottom: 2px solid #d0d0d0;
+}
+
+#divTitulo {
+    background-color: #0D729C;
+}
+
+#divTitulo, h5 {
+    color: white;
+    font-family: 'Raleway', sans-serif;
+}
+
+#button {
+    background-color: #30bb37;
+    color: white;
+    border-color: rgb(51, 160, 37);
+    transition: transform .5s;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    background-color: #0D729C;
+}
+
+#logo_footer {
+    margin-left: 5px;
+}

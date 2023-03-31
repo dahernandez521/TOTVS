@@ -1,0 +1,124 @@
+html {
+    min-height: 100%;
+    position: relative;
+}
+
+body {
+    margin: 0;
+    margin-bottom: 58px;
+}
+
+nav {
+    background-color: rgba(224, 224, 224, 0.688);
+    border-bottom: 2px solid #d0d0d0;
+    color: white !important;
+}
+
+#divTitulo {
+    border: solid 0.1em transparent;
+    border-bottom-color: #0D729C;
+}
+
+#divTitulo,
+h4 {
+    font-family: 'Raleway', sans-serif;
+}
+
+#modalImagen{
+    text-align: center;
+}
+
+.modal-header{
+    background-color:  rgb(64, 165, 206);
+}
+
+#exampleModalLabel{
+    color: white
+}
+
+#card {
+    text-align: center;
+    margin-top: 15px;
+}
+
+#imagenCard {
+    width: 100px !important;
+}
+
+#encabezadoTabla {
+    background-color: #0D729C;
+    color: white;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    background-color: #0D729C;
+}
+
+#logo_footer {
+    margin-left: 5px;
+}
+
+
+.loader-text:after {
+    content: 'Loading';
+    animation: load 2s linear infinite;
+  }
+
+  .loader-text{
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    margin: 0;
+    font-weight: bold;  
+    font-style:italic;
+    color:#0D729C;
+}
+
+  
+.LockOn {
+    display: block;
+    visibility: visible;
+    position: absolute;
+    z-index: 999;
+    top: 0px;
+    left: 0px;
+    width: 105%;
+    height: 105%;
+    background-color:white;
+    vertical-align:bottom;
+    padding-top: 10%; 
+    filter: alpha(opacity=75); 
+    opacity: 0.75; 
+    font-size:large;
+    color:blue;
+    font-style:italic;
+    font-weight:400;
+    background-image: url("../img/loading.gif");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+@keyframes load {
+    0% {
+      content: 'Loading';
+    }
+    33% {
+      content: 'Loading.';
+    }
+    67% {
+      content: 'Loading..';
+    }
+    100% {
+      content: 'Loading...';
+    }
+  }
+
+  #Refresh{
+    cursor:pointer !important;
+  }

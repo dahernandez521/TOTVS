@@ -1,0 +1,13 @@
+body {
+  padding-bottom: 20px;
+}
+
+#menu {
+  margin-bottom: 20px;
+}
+
+#carrito{
+  width: 40px;
+  float: left;
+  position: absolute;
+}

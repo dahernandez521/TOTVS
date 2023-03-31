@@ -1,0 +1,56 @@
+html {
+    min-height: 100%;
+    position: relative;
+}
+
+body {
+    margin: 0;
+    margin-bottom: 58px;
+}
+
+nav {
+    background-color: rgba(224, 224, 224, 0.688);
+    border-bottom: 2px solid #d0d0d0;
+}
+
+
+#buscar{
+    background-color: #30bb37;
+    color: white;
+    border-color: 1px solid #3dc731;
+    transition: transform .5s;
+}
+
+#buscar:hover{
+    transform: scale(1.1);
+    background-color: #2eb122
+}
+
+#buscar:hover{
+    color: white !important;
+}
+
+
+#contenedor_tabla{
+    padding-top: 10%;
+}
+
+#consultar{
+    cursor: pointer;
+}
+
+.row{
+    padding-bottom: 20px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    background-color: #0D729C;
+}
+
+#logo_footer {
+    margin-left: 5px;
+}

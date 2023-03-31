@@ -1,0 +1,32 @@
+# DE LA LINEA 3 A LA 8 ES PARA ENTRAR A LOS ARCHIVOS SIN NECESIDAD DE PONER LA EXTENCION
+
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php 
+</Ifmodule>
+
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*)$ $1.html
+</Ifmodule>
+
+# DE LA LINEA 12 A LA 16 ES PARA PONER AUTORIZACION DE LOGIN PARA ENTRAR A LOS ARCHIVOS
+
+#AuthName "Autorizacion requerida"
+#AuthUserFile C:\xampp\htdocs\Proyecto\
+#controllers\verification\.htpassword
+#AuthType Basic
+#require user dahernandez521
+
+
+Options All -Indexes
+ErrorDocument 404 http://localhost/PORTAL-VENTAS/Ups.php
+ErrorDocument 403 /PORTAL-VENTAS/403.html
+
+
+
+#IMPORTANTE   el # es para poner las lineas en comentario

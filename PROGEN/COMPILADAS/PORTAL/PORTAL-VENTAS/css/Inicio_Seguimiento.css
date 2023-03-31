@@ -1,0 +1,39 @@
+html {
+    min-height: 100%;
+    position: relative;
+}
+
+body {
+    margin: 0;
+    margin-bottom: 58px;
+}
+
+#divTitulo {
+    border: solid 0.1em transparent;
+    border-bottom-color: #0D729C;
+}
+
+#divTitulo,
+h4 {
+    font-family: 'Raleway', sans-serif;
+}
+
+#buttonBusqueda {
+    background-color: #EA9B3E;
+    color: white;
+    border-color: 1px solid #df8d2f;
+    transition: transform .5s;
+}
+
+#buttonBusqueda:hover {
+    transform: scale(1.1);
+    background-color: #EA9B3E
+}
+
+#buttonBusqueda:hover {
+    color: white !important;
+}
+
+option:focus{
+    background-color: #df8d2f;
+}

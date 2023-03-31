@@ -1,0 +1,601 @@
+body{
+
+    margin-top: -150px;
+    margin-left: -150px
+
+}
+
+#cabezera{
+    border: 0.4px solid black;
+
+    position: absolute;
+    left: 250px;
+    top: 110px;
+    width: 2100px;
+    height: 260px;
+}
+img{
+
+    position: absolute;
+    left: 15px;
+    top: 10px;
+    width: 205px;
+    height: 215px;
+    
+}
+#title{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 9pt;
+    position: absolute;
+    left: 740px;
+    top: 140px;
+    text-align: center;
+    
+}
+#identificacion1{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    height: auto;
+    width: auto;
+    position: absolute;
+    left:1025px;
+    top: 425px;
+}
+#presentacion{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    height: auto;
+    width: auto;
+    position: absolute;
+    left: 250px;
+    top: 539px;
+}
+
+
+
+#labelR{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    height: 101px;
+    width: 505px;
+    position: absolute;
+    left:211px;
+    top: 695px;
+    margin: 0 auto;
+    border: 0.4px solid black;
+    padding: 9px 0px 0px 23px;  
+    background-color: rgb(201, 198, 198);
+}
+
+#labelC{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    height: 101px;
+    width: 430px;
+    position: absolute;
+    left:1276px;
+    top: 695px;
+    margin: 0 auto;
+    border: 0.4px solid black;
+    padding: 9px 0px 0px 15px;  
+    background-color: rgb(201, 198, 198);
+}
+
+
+
+
+#regional{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11pt;
+    height: 108px;
+    width: 724px;
+    position: absolute;
+    left:550px;
+    top: 695px;
+    margin: 0 auto;
+    border: 0.4px solid black;
+    padding: 20px 0px 0px 0px;
+    text-align: center;
+
+
+}
+#centro{
+    height: 110px;
+    width: 655px;
+    position: absolute;
+    left:1715px;
+    top: 695px;
+    margin: 0 auto;
+    border: 0.4px solid black;
+    font-size: 9pt;
+    padding: 0px 0px 0px  30px;
+}
+#labelP{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    height: 128px;
+    width: 315px;
+    position: absolute;
+    left:211px;
+    top: 808px;
+    margin: 0 auto;
+    border: 0.4px solid black;
+    padding: 9px 0px 0px 23px;  
+    background-color: rgb(201, 198, 198);
+}
+#programa{
+    height: 135px;
+    width: 695px;
+    position: absolute;
+    left:550px;
+    top: 808px;
+    margin: 0 auto;
+    border: 0.4px solid black;
+    font-size: 9pt;
+    padding: 0px 0px 0px  30px;
+
+    
+}
+#labelCo{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    height: 128px;
+    width: 418px;
+    position: absolute;
+    left:1275px;
+    top: 808px;
+    margin: 0 auto;
+    border: 0.4px solid black;
+    padding: 9px 0px 0px 23px;  
+    background-color: rgb(201, 198, 198);
+}
+#codigo{
+    height: 114px;
+    width: 685px;
+    position: absolute;
+    left:1715px;
+    top: 805px;
+    margin: 0 auto;
+    border: 0.4px solid black;
+    padding: 25px 0px 0px 0px;
+    text-align: center;
+}
+#localizacion{
+    position: absolute;
+    border: 0.4px solid black;
+    left:1137px;
+    top: 941px;
+    height: 96px;
+    width: 1258px;
+    text-align: center;
+}
+#denominacion{
+    position: absolute;
+    border: 0.4px solid black;
+    left:1137px;
+    top: 1041px;
+    height: 96px;
+    width: 1258px;
+    text-align: center;
+}
+
+#label1{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 9pt;
+    position: absolute;
+    border: 0.4px solid black;
+    left:1137px;
+    top: 1142px;
+    height: 103px;
+    width: 629px;
+    background-color: white;
+    padding: 8px 0px 2px  40px;
+
+}
+
+#interno{
+    position: absolute;
+    border: 0.4px solid black;
+    left:1405px;
+    top: 1152px;
+    height: 80px;
+    width: 80px;
+    text-align: center;
+}
+
+#label2{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 9pt;
+    position: absolute;
+    border: 0.4px solid black;
+    left:1761px;
+    top: 1142px;
+    height: 103px;
+    width: 600px;
+    background-color: white;
+    padding: 8px 0px 2px  40px;
+
+}
+#externo{
+    position: absolute;
+    border: 0.4px solid black;
+    left:2040px;
+    top: 1152px;
+    height: 80px;
+    width: 80px;
+    text-align: center;
+}
+
+
+
+
+/* SEGUNDA PARTE */
+
+
+
+#identi{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 9.8pt;
+    height: 228px;
+    width: 560px;
+    position: absolute;
+    left:211px;
+    top: 943px;
+    margin: 0 auto;
+    border: 0.4px solid black;
+    padding: 85px 0px 0px 18px;  
+    background-color: rgb(201, 198, 198);
+}
+
+#la-loca{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    height: 82px;
+    width: 323px;
+    position: absolute;
+    left:790px;
+    top: 943px;
+    margin: 0 auto;
+    border: 0.4px solid black;
+    padding: 18px 0px 0px 25px;  
+    background-color: rgb(201, 198, 198);
+}
+
+#la-deno{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    height: 79px;
+    width: 323px;
+    position: absolute;
+    left:790px;
+    top: 1043px;
+    margin: 0 auto;
+    border: 0.4px solid black;
+    padding: 18px 0px 0px 25px;  
+    background-color: rgb(201, 198, 198);
+
+}
+
+#la-ti{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    height: 111px;
+    width: 323px;
+    position: absolute;
+    left:790px;
+    top: 1142px;
+    margin: 0 auto;
+    border: 0.4px solid black;
+    padding: 3px 0px 0px 25px;  
+    background-color: rgb(201, 198, 198);
+
+    
+}
+
+#identificacion{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    height: auto;
+    width: auto;
+    position: absolute;
+    left:940px;
+    top: 1308px;
+
+}
+#tipo{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    background-color: rgb(201, 198, 198);
+    border: 0.4px solid black;
+    position: absolute;
+    left:211px;
+    top: 1359px;
+    padding: 40px 0px 0px 100px;  
+    height: 135px;
+    width: 564px;
+
+    text-align: center;
+}
+#uno{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: white;
+    font-size: 10pt;
+    border: 0.4px solid black;
+    position: absolute;
+    left:211px;
+    top: 1534px;
+    padding: 30px 0px 0px 50px;  
+    height: 200px;
+    width: 614px;
+}
+#dos{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: white;
+    font-size: 10pt;
+    border: 0.4px solid black;
+    position: absolute;
+    left:211px;
+    top: 1765px;
+    padding: 30px 0px 0px 50px;  
+    height: 200px;
+    width: 614px;
+}
+#tres{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: white;
+    font-size: 10pt;
+    border: 0.4px solid black;
+    position: absolute;
+    left:211px;
+    top: 1995px;
+    padding: 30px 0px 0px 50px;  
+    height: 200px;
+    width: 614px;
+}
+#cuatro{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: white;
+    font-size: 10pt;
+    border: 0.4px solid black;
+    position: absolute;
+    left:211px;
+    top: 2225px;
+    padding: 30px 0px 0px 50px;  
+    height: 200px;
+    width: 614px;
+}
+
+
+#detalle{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    background-color: rgb(201, 198, 198);
+    border: 0.4px solid black;
+    position: absolute;
+    left:875px;
+    top: 1359px;
+    padding: 40px 0px 0px 100px;  
+    height: 135px;
+    width: 1435px;
+    text-align: center;
+    
+}
+#cinco{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    border: 0.4px solid black;
+    padding: 15px 0px 0px 10px;  
+    position: absolute;
+    left:874px;
+    top: 1534px;
+    width: 1524px;
+    height: 213px;
+
+}
+#seis{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+
+    border: 0.4px solid black;
+    padding: 15px 0px 0px 10px;   
+    position: absolute;
+    left:874px;
+    top: 1765px;
+    width: 1524px;
+    height: 213px;
+    word-wrap: break-word;
+   
+
+}
+#siete{
+
+    border: 0.4px solid black;
+    padding: 15px 0px 0px 10px; 
+    position: absolute; 
+    left:874px;
+    top: 1993px;
+    width: 1524px;
+    height: 214px;
+
+}
+
+#ocho{
+    border: 0.4px solid black;
+    padding: 15px 0px 0px 10px;   
+    position: absolute;
+    left:874px;
+    top: 2223px;
+    width: 1524px;
+    height: 216px;
+
+}
+
+/* TERCERA PARTE  */
+
+#viabilidad{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    border: 0.4px solid black;
+    background-color: white;
+    padding: 40px 0px 0px 5px;  
+    position: absolute;
+    left:211px;
+    top: 2456px;
+    width: 2193px;
+    height: 90px;
+
+}
+
+#apto{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    position: absolute;
+    top: 2497px;
+    left: 1500px;
+    
+    
+}
+
+#in-ap{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    border: 0.4px solid black;
+    position: absolute;
+    top: 2485px;
+    left: 1655px;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+
+
+}
+
+#no-apto{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    position: absolute;
+    top: 2497px;
+    left: 1880px;
+    
+    
+}
+#in-noap{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    border: 0.4px solid black;
+    position: absolute;
+    top: 2485px;
+    left: 2105px;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+}
+
+#ciudad{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    border: 0.4px solid black;
+    background-color: rgb(201, 198, 198);
+    position: absolute;
+    top: 2630px;
+    left:211px;
+    padding: 50px 0px 0px 10px;  
+    width: 320px;
+    height: 170px;
+}
+#in-ciudad{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11pt;
+    border: 0.4px solid black;
+    padding: 27px 0px 0px 25px;
+    position: absolute;
+    top: 2628px;
+    left:539px ;
+    width: 493px;
+    height: 193px;
+
+
+    
+}
+#firma1{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    border: 0.4px solid black;
+    background-color: rgb(201, 198, 198);
+    position: absolute;
+    top: 2630px;
+    left:1059px;
+    padding: 0px 0px 0px 10px;  
+    width: 425px;
+    height: 220px;
+}
+#in-firma1{
+    border: 0.4px solid black;
+    position: absolute;
+    top: 2628px;
+    left:1492px ;
+    width: 876px;
+    height: 209px;
+    padding: 10px 15px 0px 25px; 
+}
+
+
+
+
+
+#ciudad2{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    border: 0.4px solid black;
+    background-color: rgb(201, 198, 198);
+    position: absolute;
+    top: 2850px;
+    left:211px;
+    padding: 50px 0px 0px 10px;  
+    width: 320px;
+    height: 170px;
+
+}
+#in-ciudad2{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    border: 0.4px solid black;
+    padding: 27px 0px 0px 25px;
+    position: absolute;
+    top: 2848px;
+    left:539px ;
+    width: 493px;
+    height: 193px;
+
+
+}
+#firma2{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    border: 0.4px solid black;
+    background-color: rgb(201, 198, 198);
+    position: absolute;
+    top: 2850px;
+    left:1059px;
+    padding: 0px 0px 0px 10px;  
+    width: 425px;
+    height: 220px;
+}
+#in-firma2{
+    border: 0.4px solid black;
+    position: absolute;
+    top: 2848px;
+    left:1492px ;
+    width: 894px;
+    height: 209px;
+    padding: 10px 0px 0px 20px; 
+}
+#pie{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    position: absolute;
+    top: 3108px;
+    left:2010px ;
+}
+
+
