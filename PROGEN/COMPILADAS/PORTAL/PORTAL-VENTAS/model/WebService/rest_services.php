@@ -2,7 +2,7 @@
 
 //cambiar ip publica
 $ip = "190.60.28.46";
-  $ip = "10.0.0.5";
+//  $ip = "10.0.0.5";
 
 //cambiar puerto
 $puerto=":8095";
