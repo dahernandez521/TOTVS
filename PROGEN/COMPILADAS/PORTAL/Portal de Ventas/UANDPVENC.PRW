@@ -165,7 +165,8 @@ cQuery += " WHEN C5_LIBEROK = ' ' AND C5_NOTA = ' '  AND C5_BLQ = ' ' THEN 'ABIE
 cQuery += " WHEN C5_NOTA <> ' ' OR  C5_LIBEROK  = 'E' AND C5_BLq = ' ' THEN 'CERRADO'
 cQuery += " WHEN C5_LIBEROK  <> ' ' AND  C5_NOTA = ' '  AND C5_BLq = ' ' THEN  'APROBADO'
 cQuery += " WHEN C5_BLQ = '1' THEN 'BLOQUEADO'
-cQuery += " END AS ESTADO "
+cQuery += " END AS ESTADO, "
+cQuery += " D2_DOC "
 cQuery += " FROM " + RetSqlName("SA1") + " SA1 "
 cQuery += " INNER JOIN " +RetSqlName("SC5") + " SC5 "
 cQuery += " ON C5_LOJACLI = A1_LOJA "
@@ -176,6 +177,12 @@ cQuery += " ON C9_PEDIDO = C5_NUM   "
 cQuery += " AND C5_CLIENT = C9_CLIENTE  "
 cQuery += " AND C5_LOJACLI = C9_LOJA   "
 cQuery += " AND SC9.D_E_L_E_T_ <> '*' "
+cQuery += " LEFT JOIN "+ RetSqlName("SD2") + " SD2 "
+cQuery += " ON D2_PEDIDO=C5_NUM
+cQuery += " AND D2_CLIENTE=C5_CLIENTE
+cQuery += " AND D2_LOJA=C5_LOJACLI
+cQuery += " AND SD2.D_E_L_E_T_ <> '*'
+cQuery += " AND D2_ESPECIE='NF'
 cQuery += " WHERE "
 cQuery += " SA1.D_E_L_E_T_ <> '*' "
 
@@ -237,7 +244,9 @@ If (cAlias)->(!Eof())
             oTask['logdelstatus']       := AllTrim((cAlias)->LOGDELSTATUS)
             oTask['bloqcart']       := AllTrim((cAlias)->CR)
             oTask['blocstck']       := AllTrim((cAlias)->ST)
-            oTask['estado']         := (cAlias)->ESTADO   
+            oTask['estado']         := (cAlias)->ESTADO
+            oTask['fact']         := (cAlias)->D2_DOC   
+            
             AAdd(aTasks, oTask)
             IF Len(aTasks) >= Self:PageSize
                 Exit

@@ -207,7 +207,9 @@ WSMETHOD POST WSRECEIVE   WSSERVICE UANDPVCRE
         aAdd(aCabec,{"C5_LOJAENT",  AllTrim(oParseJson:DeliveryStore),  NIL})    
         
         aAdd(aCabec,{"C5_CLIENT",  AllTrim(oParseJson:Cliente),         NIL})
-        aAdd(aCabec,{"C5_CONDPAG",  AllTrim(oParseJson:PaymentTerms),   NIL})
+        // aAdd(aCabec,{"C5_CONDPAG",  AllTrim(oParseJson:PaymentTerms),   NIL})
+        aAdd(aCabec,{"C5_CONDPAG",  AllTrim(POSICIONE("SA1", 1, xFilial("SA1") + oParseJson:Client+oParseJson:Store, "  A1_COND")),         NIL})
+
         
         aAdd(aCabec,{"C5_TIPOPE",  '10', NIL})
         aAdd(aCabec,{"C5_DOCGER",  '2', NIL})

@@ -99,6 +99,12 @@ Static Function ReportPrint(oReport,cAliasQry,xAuxTerc)
 	oReport:Section(1):BeginQuery()
 	BeginSql Alias cAliasQry
 		SELECT
+		DISTINCT
+			CT2_SEQUEN,
+			CT2_LOTE,
+			CT2_SBLOTE,
+			CT2_DOC,
+			CT2_LINHA,
 			CT2_DATA FECHA,
 			CT2_DATA FECHA_AUX,
 			CASE
@@ -128,7 +134,7 @@ Static Function ReportPrint(oReport,cAliasQry,xAuxTerc)
 					END
 				)
 			END DV,
-			CV0_DESC NOMBRE
+			(SELECT TOP 1 CV0_DESC FROM %Table:CV0% WHERE D_E_L_E_T_<>'*' AND CV0_CODIGO=CT2_EC05CR)NOMBRE
 		FROM
 			%Table:CT2% CT2
 		INNER JOIN %Table:CT1% CT11
@@ -153,6 +159,12 @@ Static Function ReportPrint(oReport,cAliasQry,xAuxTerc)
 			AND CT2_EC05CR <= %Exp:mv_par09%
 		UNION
 		SELECT
+		DISTINCT
+CT2_SEQUEN,
+CT2_LOTE,
+CT2_SBLOTE,
+CT2_DOC,
+CT2_LINHA,
 			CT2_DATA FECHA,
 			CT2_DATA FECHA_AUX,
 			CASE
@@ -182,7 +194,7 @@ Static Function ReportPrint(oReport,cAliasQry,xAuxTerc)
 					END
 				)
 			END DV,
-			CV0_DESC NOMBRE
+			(SELECT TOP 1 CV0_DESC FROM %Table:CV0% WHERE D_E_L_E_T_<>'*' AND CV0_CODIGO=CT2_EC05DB)NOMBRE
 		FROM
 			%Table:CT2% CT2
 		INNER JOIN %Table:CT1% CT11

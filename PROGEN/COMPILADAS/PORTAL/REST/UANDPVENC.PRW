@@ -102,6 +102,7 @@ WSRESTFUL UANDPVENC DESCRIPTION "Servicio API Rest Para la consulta / Modificaci
     WSDATA Cod          AS STRING OPTIONAL
     WSDATA DIni         AS STRING OPTIONAL
     WSDATA DFin         AS STRING  OPTIONAL
+    WSDATA Cloja         AS STRING  OPTIONAL
     WSDATA Page         AS INTEGER      OPTIONAL
     WSDATA PageSize     AS INTEGER      OPTIONAL
 
@@ -113,7 +114,7 @@ WSRESTFUL UANDPVENC DESCRIPTION "Servicio API Rest Para la consulta / Modificaci
 END WSRESTFUL
 
 //1. METODO Retorna Listado de todos los Productos
-WSMETHOD GET  WSRECEIVE Cod, DIni, DFin, Page, PageSize  WSREST UANDPVENC
+WSMETHOD GET  WSRECEIVE Cod, DIni, DFin, Cloja, Page, PageSize  WSREST UANDPVENC
 Local aArea     := GetArea()
 Local lPost     := .T.
 Local oResponse := JsonObject():New()
@@ -126,6 +127,7 @@ Local nAux   := 0
 Default Self:Cod        := ''
 Default Self:DIni       := ''
 Default Self:DFin       := ''
+Default self:Cloja      :=''
 Default Self:Page       := 1
 //Default Self:PageSize   := 10
 
@@ -186,8 +188,9 @@ IF !Empty(Self:DIni)
     cCod := AllTrim(Upper(Self:Cod))
     cDIni :=AllTrim(Self:DIni)
     cDFin := AllTrim(Self:DFin)
+    cCloja := AllTrim(Self:Cloja)
     cQuery += " AND (SC5.C5_NUM LIKE '%" + cCod + "%'  OR "
-    cQuery += "  SC5.C5_CLIENTE LIKE '%" + cCod + "%'  ) AND SC5.C5_EMISSAO BETWEEN '"+cDIni+"' AND '"+ cDFin +"' "
+    cQuery += "  SC5.C5_CLIENTE LIKE '%" + cCod + "%'  )  AND SC5.C5_EMISSAO BETWEEN '"+cDIni+"' AND '"+ cDFin +"' "
     cQuery += " GROUP BY SC5.C5_FILIAL,	SC5.C5_NUM,	SC5.C5_VEND1,	SC5.C5_EMISSAO,	SC5.C5_FECENT,	SC5.C5_CLIENTE,	SC5.C5_LOJACLI,	SC5.C5_CLIENT,	SC5.C5_LOJAENT,	SC5.C5_MENNOTA,	SC5.C5_NATUREZ,	SC5.C5_XENDENT,	SC5.C5_XEST,	SC5.C5_XCOD_MU,	SA1.A1_NOME,	SC5.C5_TIPOCLI,  SC5.C5_DESC1,	SA1.A1_END,	SC5.C5_CONDPAG,	SC5.C5_DOCGER,	SC5.C5_LIBEROK,	SC5.C5_NOTA, SC5.C5_BLQ, SC5.D_E_L_E_T_"
     //cQuery += " ORDER BY C5_EMISSAO,SC5.C5_NUM "
 EndIF

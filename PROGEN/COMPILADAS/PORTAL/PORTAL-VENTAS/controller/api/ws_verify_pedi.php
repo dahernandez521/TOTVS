@@ -4,7 +4,7 @@ include "../../model/WebService/rest_services.php";
 
 if (isset($_SESSION['Cliente'])) {
   unset($_SESSION["Pedidos"]);
-  $Comodin= "&DIni=" . str_replace("-", "", $_SESSION["FecInic"]) . "&DFin=" . str_replace("-", "", $_SESSION["FecFini"]);
+  $Comodin= "&DIni=" . str_replace("-", "", $_SESSION["FecInic"]) . "&DFin=" . str_replace("-", "", $_SESSION["FecFini"])."&Cloja=".$_SESSION["Loja"];
 
   $url = $_ConPed . "?COD=" . trim($_SESSION['Cliente']) . $Comodin;
 

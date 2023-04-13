@@ -468,6 +468,39 @@ Static Function fProcessa(cProd,cOrdesep,Cpedido,cNumseri, cTitAux,Actualiza)
 		n1Statud :=TCSqlExec(Upd)
 
 
+		Upds := "UPDATE "+RetSqlName("SBF")+" SET D_E_L_E_T_='*' WHERE D_E_L_E_T_ <> '*' "
+		Upds += " AND ((SELECT  TOP 1 DB_ORIGEM FROM "+RetSqlName("SDB")+" WHERE D_E_L_E_T_ <>'*' AND BF_PRODUTO=DB_PRODUTO AND DB_LOCAL=BF_LOCAL AND BF_NUMSERI=DB_NUMSERI ORDER BY DB_DATA DESC)='SC6' "
+		Upds += " AND (SELECT  TOP 1 DB_SERIE FROM "+RetSqlName("SDB")+" WHERE D_E_L_E_T_ <>'*' AND BF_PRODUTO=DB_PRODUTO AND DB_LOCAL=BF_LOCAL AND BF_NUMSERI=DB_NUMSERI ORDER BY DB_DATA DESC)='R' "
+
+		Upds += " )"
+		if (Len(AllTrim(cProd))>0)
+			Upds += " AND BF_PRODUTO='" + AllTrim(cProd)+"'"
+		endif
+		if (Len(AllTrim(cOrdesep))>0)
+			Upds += " AND (  EXISTS ( SELECT 1 FROM "+RetSqlName("CB8")+" WHERE D_E_L_E_T_ <> '*'  AND CB8_PROD=BF_PRODUTO  AND CB8_NUMSER=BF_NUMSERI AND BF_LOCAL=CB8_LOCAL AND CB8_ORDSEP='" + AllTrim(cOrdesep) +"')"
+			Upds += " OR  EXISTS ( SELECT 1 FROM "+RetSqlName("CB9")+" WHERE D_E_L_E_T_ <> '*'  AND CB9_PROD=BF_PRODUTO AND CB9_NUMSER=BF_NUMSERI AND BF_LOCAL=CB9_LOCAL AND CB9_ORDSEP='" + AllTrim(cOrdesep) +"') )"
+		endif
+		if (Len(AllTrim(Cpedido))>0)
+			Upds += " AND ( EXISTS ( SELECT 1 FROM "+RetSqlName("CB8")+" WHERE D_E_L_E_T_ <> '*'  AND CB8_PROD=BF_PRODUTO  AND CB8_NUMSER=BF_NUMSERI AND BF_LOCAL=CB8_LOCAL AND CB8_PEDIDO='" + AllTrim(Cpedido) +"')"
+			Upds += " OR EXISTS ( SELECT 1 FROM "+RetSqlName("CB9")+" WHERE D_E_L_E_T_ <> '*' AND CB9_PROD=BF_PRODUTO  AND CB9_NUMSER=BF_NUMSERI AND BF_LOCAL=CB9_LOCAL AND CB9_PEDIDO='" + AllTrim(Cpedido) +"') )"
+		endif
+		if (Len(AllTrim(cNumseri))>0)
+			Upds += " AND BF_NUMSERI='" + AllTrim(cNumseri) +"'"
+		endif
+		n1Statud :=TCSqlExec(Upds)
+
+
+		Upd := "UPDATE "+RetSqlName("SDC")+" SET D_E_L_E_T_='*' WHERE D_E_L_E_T_ <> '*' "
+		Upd += " AND NOT EXISTS (SELECT 1  FROM "+RetSqlName("SBF")+" WHERE D_E_L_E_T_ <> '*' AND DC_NUMSERI = BF_NUMSERI  AND DC_LOCAL=BF_LOCAL  AND DC_PRODUTO=BF_PRODUTO ) "
+		if (Len(AllTrim(cProd))>0)
+			Upd += " AND DC_PRODUTO='" + AllTrim(cProd)+"'"
+		endif
+		if (Len(AllTrim(cNumseri))>0)
+			Upd += " AND DC_NUMSERI='" + AllTrim(cNumseri) +"'"
+		endif
+		n1Statud :=TCSqlExec(Upd)
+
+
 		Upd := " UPDATE "+RetSqlName("SB2")+" "
 		Upd += " SET B2_RESERVA=(SELECT COUNT(*) "
 		Upd += " FROM  "+RetSqlName("SBF")+" BF1 "

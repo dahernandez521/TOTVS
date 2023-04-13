@@ -1714,7 +1714,7 @@ Static Function _xDesg1(cXProdu,cXComp)
 	Local cRetorno :=  ""
 	Local _cXComp := cXComp
 
-	_cAQuery := "SELECT G1_OBSERV  FROM   "+RetSQLName('SG1')+" WHERE D_E_L_E_T_ <> '*' AND G1_COMP ='"+ALLTRIM(_cXComp)+"' AND  G1_COD  = '"+ALLTRIM(_xCprodu)+"'   "
+	_cAQuery := "SELECT G1_OBSERV  FROM   "+RetSQLName('SG1')+" WHERE D_E_L_E_T_ <> '*' AND G1_COMP ='"+ALLTRIM(_cXComp)+"' AND  G1_COD  = '"+ALLTRIM(_xCprodu)+"' ORDER BY 1 ASC   "
 	TcQuery _cAQuery New Alias "_aQRY"
 	dbSelectArea("_aQRY")
 	While !_aQRY->(EOF())

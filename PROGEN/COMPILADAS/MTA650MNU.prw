@@ -14,7 +14,7 @@ User Function MTA650MNU()
     aAdd( aRotina, { "# Asignación Multiple"        ,"U_PGEMPD4" , 0 , 7, 0, nil} )
     aAdd( aRotina, { "# Detalle Por OP"             ,"MATR860"   , 0 , 7, 0, nil} )
     aAdd( aRotina, { "# Actualiza Fechas Previstas" ,"U_PGFHSH8" , 0 , 7, 0, nil} )
-    aAdd( aRotina, { "# Imprime Orden de Producion" ,"MATR820  " , 0 , 7, 0, nil} )
+    // aAdd( aRotina, { "# Imprime Orden de Producion" ,"MATR820  " , 0 , 7, 0, nil} )
 Return
 
 
