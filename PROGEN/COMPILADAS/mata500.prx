@@ -402,7 +402,7 @@ While ( !Eof() .And. xFilial("SC6")==C6_FILIAL )
 				EndIf
 			Next nX
 
-			MaLiberOk({ SC5->C5_NUM }, .T.)
+			
 			                         
 			// Gera NCC   
 			If lRetorno .AND. lMvNCCResi .AND. !Empty(SC5->C5_ORCRES)
