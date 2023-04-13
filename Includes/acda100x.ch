@@ -182,3 +182,4 @@
 	#define STR0195 "No liberado para separación"
 	#define STR0196 "Espere"
 	#define STR0197 "Actualizando registros..."
+	#define STR0198 "Cant. Liberada PV"
