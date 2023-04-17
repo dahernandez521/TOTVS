@@ -501,33 +501,33 @@ Static Function fProcessa(cProd,cOrdesep,Cpedido,cNumseri, cTitAux,Actualiza)
 		n1Statud :=TCSqlExec(Upd)
 
 
-		Upd := " UPDATE "+RetSqlName("SB2")+" "
-		Upd += " SET B2_RESERVA=(SELECT COUNT(*) "
-		Upd += " FROM  "+RetSqlName("SBF")+" BF1 "
-		Upd += " WHERE B2_COD=BF1.BF_PRODUTO "
-		Upd += " AND B2_LOCAL=BF1.BF_LOCAL "
-		Upd += " AND BF1.D_E_L_E_T_ <>'*' "
-		Upd += " AND BF_EMPENHO=1 )"
-		Upd += " WHERE "
-		Upd += " D_E_L_E_T_ <>'*' "
-		if (Len(AllTrim(cProd))>0)
-			Upd += " AND B2_COD='" + AllTrim(cProd)+"'"
-		endif
-		n1Statud :=TCSqlExec(Upd)
+		// Upd := " UPDATE "+RetSqlName("SB2")+" "
+		// Upd += " SET B2_RESERVA=(SELECT COUNT(*) "
+		// Upd += " FROM  "+RetSqlName("SBF")+" BF1 "
+		// Upd += " WHERE B2_COD=BF1.BF_PRODUTO "
+		// Upd += " AND B2_LOCAL=BF1.BF_LOCAL "
+		// Upd += " AND BF1.D_E_L_E_T_ <>'*' "
+		// Upd += " AND BF_EMPENHO=1 )"
+		// Upd += " WHERE "
+		// Upd += " D_E_L_E_T_ <>'*' "
+		// if (Len(AllTrim(cProd))>0)
+		// 	Upd += " AND B2_COD='" + AllTrim(cProd)+"'"
+		// endif
+		// n1Statud :=TCSqlExec(Upd)
 
 
-		Upd := " UPDATE "+RetSqlName("SB2")+" "
-		Upd += " SET B2_QATU=B2_QACLASS+(SELECT COUNT(*) "
-		Upd += " FROM  "+RetSqlName("SBF")+" BF1 "
-		Upd += " WHERE B2_COD=BF1.BF_PRODUTO "
-		Upd += " AND B2_LOCAL=BF1.BF_LOCAL "
-		Upd += " AND BF1.D_E_L_E_T_ <>'*' )"
-		Upd += " WHERE "
-		Upd += " D_E_L_E_T_ <>'*' "
-		if (Len(AllTrim(cProd))>0)
-			Upd += " AND B2_COD='" + AllTrim(cProd)+"'"
-		endif
-		n1Statud :=TCSqlExec(Upd)
+		// Upd := " UPDATE "+RetSqlName("SB2")+" "
+		// Upd += " SET B2_QATU=B2_QACLASS+(SELECT COUNT(*) "
+		// Upd += " FROM  "+RetSqlName("SBF")+" BF1 "
+		// Upd += " WHERE B2_COD=BF1.BF_PRODUTO "
+		// Upd += " AND B2_LOCAL=BF1.BF_LOCAL "
+		// Upd += " AND BF1.D_E_L_E_T_ <>'*' )"
+		// Upd += " WHERE "
+		// Upd += " D_E_L_E_T_ <>'*' "
+		// if (Len(AllTrim(cProd))>0)
+		// 	Upd += " AND B2_COD='" + AllTrim(cProd)+"'"
+		// endif
+		// n1Statud :=TCSqlExec(Upd)
 
 
 
