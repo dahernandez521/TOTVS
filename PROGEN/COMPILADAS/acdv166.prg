@@ -1270,11 +1270,9 @@ If !lApp
 		CB8->(DbSkip())
 	EndDo
 	CB8->(RestArea(aCB8))
-	If lRet
-		Reclock("CB7",.f.)
-		CB7->CB7_STATUS := "1"  // inicio separacao
-		CB7->(MsUnLock())
-	EndIf
+
+	IIf(lRet .And. !MSCBFSem(),(lRet:=.F.),(lRet:=.T.))
+
 Else
 	
 	If cType == '1' //Pedido
@@ -4407,11 +4405,7 @@ If !lLoteSug
 			If cItemAnt != aItensTrc[nX][1]+aItensTrc[nX][2]
 				aEmpPronto := LoadEmpEst(.F.,.T.)
 				For nY := 1 to Len(aEmpPronto)
-					If Len(nQtdLib) > 0
 						nQtdLib += aEmpPronto[nY][5]
-					Else
-						nQtdLib := aEmpPronto[nY][5]
-					EndIf
 				Next nY
 				MaLibDoFat(SC6->(Recno()),nQtdLib,.T.,.T.,.F.,.F.,.F.,.F.,NIL,{||SC9->C9_ORDSEP := cOrdSep},aEmpPronto,.T.)
 			EndIf

@@ -1,5 +1,6 @@
 #Include "PROTHEUS.CH"
 #Include "TopConn.ch"
+#INCLUDE "Acda100.ch"
 
 User Function XSEGSERI()
 
@@ -57,7 +58,7 @@ Static Function ReportPrint(oReport)
 	oReport:Section(1):Cell("CB8_PEDIDO" ):SetBlock({|| (cAliasQry)->PEDIDO})
 	oReport:Section(1):Cell("C5_EMISSAO" ):SetBlock({|| (cAliasQry)->C5_EMISSAO})
 	oReport:Section(1):Cell("CB8_ORDSEP" ):SetBlock({|| (cAliasQry)->ORD_SEPARACION})
-	oReport:Section(1):Cell("CB7_STATUS" ):SetBlock({|| (cAliasQry)->ESTADO})
+	oReport:Section(1):Cell("CB7_STATUS" ):SetBlock({|| TrdEstatus((cAliasQry)->ESTADO)})
 	oReport:Section(1):Cell("CB7_DTEMIS" ):SetBlock({|| (cAliasQry)->CB7_DTEMIS})
 	oReport:Section(1):Cell("DB_DOC" ):SetBlock({|| (cAliasQry)->REMITO})
 	oReport:Section(1):Cell("D2_DOC" ):SetBlock({|| (cAliasQry)->FACTURA})
@@ -159,5 +160,33 @@ Static Function ReportPrint(oReport)
 
 
 Return
+
+
+Static Function TrdEstatus(cStatus)
+	Local cDescri:= " "
+
+	If Empty(cStatus) .or. cStatus == "0"
+		cDescri:= STR0073 //"Nao iniciado"
+	ElseIf cStatus == "1"
+		cDescri:= STR0074 //"Em separacao"
+	ElseIf cStatus == "2"
+		cDescri:= STR0075 //"Separacao finalizada"
+	ElseIf cStatus == "3"
+		cDescri:= STR0076 //"Em processo de embalagem"
+	ElseIf cStatus == "4"
+		cDescri:= STR0077 //"Embalagem Finalizada"
+	ElseIf cStatus == "5"
+		cDescri:= STR0078 //"Nota gerada"
+	ElseIf cStatus == "6"
+		cDescri:= STR0079 //"Nota impressa"
+	ElseIf cStatus == "7"
+		cDescri:= STR0080 //"Volume impresso"
+	ElseIf cStatus == "8"
+		cDescri:= STR0081 //"Em processo de embarque"
+	ElseIf cStatus == "9"
+		cDescri:=  STR0082 //"Finalizado"
+	EndIf
+
+Return(cDescri)
 
 

@@ -63,18 +63,18 @@ User Function xACD10Re()
 Return
 
 /*/
-ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
-±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
-±±ÉÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍ»±±
-±±ºFun‡„o    ³ Relatorioº Autor ³ Anderson Rodrigues º Data ³  29/10/04   º±±
-±±ÌÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍ¹±±
-±±ºDescri‡„o ³ Funcao auxiliar chamada pela RPTSTATUS. A funcao RPTSTATUS º±±
-±±º          ³ monta a janela com a regua de processamento.               º±±
-±±ÌÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹±±
-±±ºUso       ³ SIGAACD                                                    º±±
-±±ÈÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼±±
-±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
-ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+	ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+	±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+	±±ÉÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍ»±±
+	±±ºFun‡„o    ³ Relatorioº Autor ³ Anderson Rodrigues º Data ³  29/10/04   º±±
+	±±ÌÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍ¹±±
+	±±ºDescri‡„o ³ Funcao auxiliar chamada pela RPTSTATUS. A funcao RPTSTATUS º±±
+	±±º          ³ monta a janela com a regua de processamento.               º±±
+	±±ÌÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹±±
+	±±ºUso       ³ SIGAACD                                                    º±±
+	±±ÈÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼±±
+	±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+	ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 /*/
 
 Static Function Relatorio()
@@ -109,17 +109,17 @@ Static Function Relatorio()
 Return
 
 /*/
-ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
-±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
-±±ÉÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍ»±±
-±±ºFun‡„o    ³ Imprime  º Autor ³ Anderson Rodrigues º Data ³  12/09/03   º±±
-±±ÌÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍ¹±±
-±±ºDescri‡„o ³ Funcao auxiliar chamada pela funcao Relatorio              º±±
-±±ÌÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹±±
-±±ºUso       ³ SIGAACD                                                    º±±
-±±ÈÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼±±
-±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
-ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+	ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+	±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+	±±ÉÍÍÍÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÑÍÍÍÍÍÍÍÍÍÍÍÍÍ»±±
+	±±ºFun‡„o    ³ Imprime  º Autor ³ Anderson Rodrigues º Data ³  12/09/03   º±±
+	±±ÌÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍ¹±±
+	±±ºDescri‡„o ³ Funcao auxiliar chamada pela funcao Relatorio              º±±
+	±±ÌÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹±±
+	±±ºUso       ³ SIGAACD                                                    º±±
+	±±ÈÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼±±
+	±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+	ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 /*/
 
 Static Function Imprime(lRet)
@@ -237,12 +237,14 @@ Static Function Imprime(lRet)
 	// @nLin, 088 Psay STR0067 //"Lote"
 	// @nLin, 100 Psay STR0068 //"SubLote"
 	@nLin, 100 Psay "UM"
-	@nLin, 105 Psay STR0070 //"Qtd Original"
-	@nLin, 120 Psay STR0071 //"Qtd a Separar"
+	@nLin, 105 Psay STR0198 //"Qtd Liberada"
+	@nLin, 125 Psay STR0070 //"Qtd Original"
+	@nLin, 140 Psay STR0071 //"Qtd a Separar"
 	//@nLin, 142 Psay STR0072 //"Qtd a Embalar"
-	@nLin, 140 Psay "Ubic 1"
-	@nLin, 155 Psay "Ubic 2"
-	@nLin, 170 Psay "Obs"
+	@nLin, 160 Psay "Ubic 1"
+	@nLin, 170 Psay "Ubic 2"
+	@nLin, 185 Psay "Obs"
+
 
 
 	CB8->(DbSetOrder(1))
@@ -250,11 +252,27 @@ Static Function Imprime(lRet)
 
 
 	cQueryOS := " SELECT CB8_FILIAL, CB8_ORDSEP, CB8_PEDIDO, CB8_PROD, B1_DESC, B1_UM, B1_XUBICA1, B1_XUBICA2, CB8_LOCAL, CB8_LCALIZ,CB8_LOTECT, CB8_NUMLOT,"
+	//CAMPO ADICONAL A LA CONSULTA
+	cQueryOS += "   (SELECT SUM(C9_QTDLIB) FROM SC9010 SC9 WHERE  CB8.CB8_ORDSEP=SC9.C9_ORDSEP  AND CB8.CB8_PEDIDO=SC9.C9_PEDIDO  AND CB8.CB8_PROD=SC9.C9_PRODUTO 	 AND SC9.D_E_L_E_T_ <> '*') C9_QTDLIB, "
+	//FIN CAMPO ADICIONAL
 	cQueryOS += " SUM(CB8_QTDORI) AS CB8_QTDORI, SUM(CB8_SALDOS) AS CB8_SALDOS, SUM(CB8_SALDOE) AS CB8_SALDOE FROM "+ RetSqlName("CB8") +" CB8"
 	cQueryOS += " INNER JOIN "+ RetSqlName("SB1") + " SB1 ON CB8_PROD = B1_COD AND SB1.D_E_L_E_T_ <> '*' "
+
+	// //AGREGA CONSULTA EXTRA PARA VALIDAR CANTIDAD LIBERADA VS CANTIDAD SEPARADA
+	// cQueryOS += " INNER JOIN "+ RetSqlName("SC9") + " SC9 "
+	// cQueryOS += " ON CB8.CB8_ORDSEP=SC9.C9_ORDSEP "
+	// cQueryOS += " AND CB8.CB8_PEDIDO=SC9.C9_PEDIDO "
+	// cQueryOS += " AND CB8.CB8_PROD=SC9.C9_PRODUTO "
+	// cQueryOS += " AND SC9.D_E_L_E_T_ <> '*' "
+	// // FIN CONSULTA EXTRA
+
+
 	cQueryOS += " WHERE CB8_ORDSEP = '" + cOrdSep + "' AND CB8.D_E_L_E_T_ <>'*' "
 	cQueryOS += " GROUP BY CB8_FILIAL, CB8_ORDSEP, CB8_PEDIDO, CB8_PROD, B1_DESC, B1_UM, B1_XUBICA1, B1_XUBICA2, CB8_LOCAL, CB8_LCALIZ, CB8_LOTECT, CB8_NUMLOT, "
 	cQueryOS += " CB8_ORDSEP, CB8_PEDIDO, CB8_PROD, B1_XUBICA1, B1_XUBICA2"
+	//CAMPO ADICONAL AL AGRUPAMIENTO
+	// cQueryOS += "  ,C9_QTDLIB"
+	//FIN CAMPO ADICIONAL
 	cQueryOS += " ORDER BY CB8_FILIAL, B1_XUBICA1, B1_XUBICA2
 	cQueryOS := ChangeQuery(cQueryOS)
 	dbUseArea( .T., 'TOPCONN', TCGENQRY(,,cQueryOS), _cAliOS, .F., .T.)
@@ -280,12 +298,13 @@ Static Function Imprime(lRet)
 			// @nLin, 088 Psay STR0067 //"Lote"
 			// @nLin, 100 Psay STR0068 //"SubLote"
 			@nLin, 100 Psay "UM"
-			@nLin, 105 Psay STR0070 //"Qtd Original"
-			@nLin, 120 Psay STR0071 //"Qtd a Separar"
+			@nLin, 105 Psay STR0198 //"Qtd Liberada"
+			@nLin, 125 Psay STR0070 //"Qtd Original"
+			@nLin, 140 Psay STR0071 //"Qtd a Separar"
 			//@nLin, 142 Psay STR0072 //"Qtd a Embalar"
-			@nLin, 140 Psay "Ubica 1"
-			@nLin, 155 Psay "Ubic 2"
-			@nLin, 170 Psay "Obs"
+			@nLin, 160 Psay "Ubica 1"
+			@nLin, 170 Psay "Ubic 2"
+			@nLin, 185 Psay "Obs"
 			nLin++
 		Endif
 
@@ -296,12 +315,13 @@ Static Function Imprime(lRet)
 		// @nLin, 088 Psay (_cAliOS)->CB8_LOTECT
 		// @nLin, 100 Psay (_cAliOS)->CB8_NUMLOT
 		@nLin, 101 Psay (_cAliOS)->B1_UM
-		@nLin, 105 Psay (_cAliOS)->CB8_QTDORI Picture "@E 9,999,999"
-		@nLin, 120 Psay (_cAliOS)->CB8_SALDOS Picture "@E 9,999,999"
+		@nLin, 105 Psay (_cAliOS)->C9_QTDLIB Picture "@E 9,999,999"
+		@nLin, 125 Psay (_cAliOS)->CB8_QTDORI Picture "@E 9,999,999"
+		@nLin, 140 Psay (_cAliOS)->CB8_SALDOS Picture "@E 9,999,999"
 		//@nLin, 142 Psay (_cAliOS)->CB8_SALDOE Picture "@E 9,999,999"
-		@nLin, 140 Psay (_cAliOS)->B1_XUBICA1
-		@nLin, 157 Psay (_cAliOS)->B1_XUBICA2
-		@nLin, 174 Psay "____________________________________________"
+		@nLin, 160 Psay (_cAliOS)->B1_XUBICA1
+		@nLin, 170 Psay (_cAliOS)->B1_XUBICA2
+		@nLin, 189 Psay "_____________________________"
 		(_cAliOS)->(DbSkip())
 	Enddo
 

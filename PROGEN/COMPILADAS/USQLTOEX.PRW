@@ -21,9 +21,12 @@ User Function USQLTOEX()
     Static oDlg
 
 
-    if UserActua<>"000027" //TOTVSADM
-        Return
-    EndIF
+    // if UserActua<>"000027" //TOTVSADM
+    //     Return
+    // EndIF
+    if UserActua<>"000027" .AND. UserActua<>"000036" //TOTVSADM //TIC02 FENEY
+		Return
+	EndIF
 
 
     DEFINE MSDIALOG oDlg TITLE "Exportar a Excel consulta SQL. " FROM 000, 000  TO 500, 600 COLORS 0, 16777215 PIXEL

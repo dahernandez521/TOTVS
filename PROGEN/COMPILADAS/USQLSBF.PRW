@@ -326,6 +326,9 @@ Static Function fProcessa(cProd,cOrdesep,Cpedido,cNumseri, cTitAux,Actualiza)
 	EndIf
 
 
+	// Upd := " UPDATE SDC010 SET  D_E_L_E_T_='*'  WHERE D_E_L_E_T_ <> '*' AND DC_PRODUTO='TR01M_CO-004' AND DC_PEDIDO='002783' "
+	// n1Statud :=TCSqlExec(Upd)
+
 	if (UPPER(Actualiza)=='S')
 		// PONE RESERVADOS TODOS LOS SERIALES QUE ESTAN EN UNA ORDEN DE SEPARACIÓN PERO APARECEN DISPONIBLES
 		Upd := " UPDATE "+RetSqlName("SBF")+" SET BF_EMPENHO=1 WHERE D_E_L_E_T_ <> '*' "
