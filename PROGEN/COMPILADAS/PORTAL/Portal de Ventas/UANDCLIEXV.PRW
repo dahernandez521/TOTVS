@@ -178,6 +178,7 @@ If (cAlias)->(!Eof())
             oTask['nomdepentre']    := Alltrim(EncodeUTF8((cAlias)->A1_ESTACLI))  //Nombre Depto entrega
              oTask['totaldeb']    := (cAlias)->TOTALD                       //Total Debitos
             oTask['totalcre']    := (cAlias)->TOTALC                       //Total Creditos
+            oTask['FecVer']    := "25/04/2023"                       //Version Api
             AAdd(aTasks, oTask)
             IF Len(aTasks) >= Self:PageSize
                 Exit
