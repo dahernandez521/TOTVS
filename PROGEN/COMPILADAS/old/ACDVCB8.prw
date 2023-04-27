@@ -70,6 +70,41 @@ user function ACDVCB8()
     //    RestArea(aArea)
     //    Return .T.
     Endif
+    //25-04-2023 
+    _cAQuery := " SELECT R_E_C_N_O_ AS ID FROM  "+RetSQLName('SDC')+" WHERE "
+    _cAQuery += "     DC_FILIAL  = '"+CB8->CB8_FILIAL+"' "
+    _cAQuery += " AND DC_PRODUTO = '"+CB8->CB8_PROD+"' "
+    _cAQuery += " AND DC_PEDIDO  = '"+CB8->CB8_PEDIDO+"' "
+    _cAQuery += " AND DC_NUMSERI = '"+CB8->CB8_NUMSER+"' "
+    _cAQuery += " AND D_E_L_E_T_ <> '*'  "
+    TcQuery _cAQuery New Alias "_SDC"
+    dbSelectArea("_SDC")
+    nIDSDC := 0
+    If _SDC->(!EOF())
+        nIDSDC := _SDC->ID        
+    EndIf
+    _SDC->(dbCloseArea())
+    If nIDSDC >  0
+
+        dbSelectArea("SDC")
+        dbGoTo(nIDSDC)
+        //baja empenho
+        dbSelectArea("SBF")
+        SBF->(dbSetOrder(4))
+		If SBF->(dbSeek(xFilial("SBF")+SDC->(DC_PRODUTO+DC_NUMSERIE)))
+		    SBF->(GravaBFEmp("-",1,"F",.T.,SDC->DC_QUANT))
+		EndIf
+
+        //empenho    
+        dbSelectArea("SBF")
+        SBF->(dbSetOrder(4))
+		If SBF->(dbSeek(xFilial("SBF")+SDC->(DC_PRODUTO+cNumSer)))
+		    SBF->(GravaBFEmp("+",1,"F",.T.,SDC->DC_QUANT))
+		EndIf
+
+    Else 
+         VtAlert("El numero de serie escaneado no existe en la tabla lectura(SDC).","A V I S O",.T.,1000) //"Aviso"     
+    EndIf 
 
     // Customização de usuário...
    RestArea(aArea)

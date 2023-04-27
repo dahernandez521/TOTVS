@@ -106,6 +106,10 @@ User Function PRGRMTO()
 	AAdd( aCampos,{ "F2EMISSAO"		,"D","Emisión"			,"@!S"+cValToChar(TamSX3("F2_EMISSAO")[1])		,"0"	} )
 
 	aRotina := {{"Genera PDFs "		, 	'U_ACMRP2B()',	0,3}}
+	AADD( aRotina,{"[Marcar todo", 	'U_fmarkall()',	0,3})
+	AAdd(aRotina,{"[Descarmar todo", 	'U_fdesmarkall()',	0,3})
+
+
 
 	cRealAlias:=oTempTable:GetAlias()
 	cRealNames:=oTempTable:GetRealName()
@@ -121,6 +125,32 @@ User Function PRGRMTO()
 	oTempTable:Delete()
 	
 Return 
+
+// Funciones para seleccionar o desmarcar todos los items 
+User Function fmarkall()
+	//Local nRecno := (cRealAlias)->(Recno())
+	//Local lbandera := .T.
+	(cRealAlias)->(DbGoTop())
+	While (cRealAlias)->(!EOF())
+		If EMPTY((cRealAlias)->F2OK)
+			(cRealAlias)->F2OK :=cMarca
+		EndIf
+   		(cRealAlias)->(DbSkip())
+	End
+Return 
+User Function fdesmarkall()
+	//Local nRecno := (cRealAlias)->(Recno())
+	//Local lbandera := .T.
+	(cRealAlias)->(DbGoTop())
+	While (cRealAlias)->(!EOF())
+		If !EMPTY((cRealAlias)->F2OK)
+			(cRealAlias)->F2OK :=''
+		EndIf
+   		(cRealAlias)->(DbSkip())
+	End
+Return 
+
+
 /*
 +---------------------------------------------------------------------------+
 | Programa  #   ACMRP2B       |Autor  |                 |Fecha |  |
@@ -166,7 +196,7 @@ Static Function fFilAcm2(cFiltro)
 		cFiltro += "F2->F2_CLIENTE >='"+MV_PAR07+"' .AND."	
 		cFiltro += "F2->F2_CLIENTE <='"+MV_PAR08+"' .AND."	
 		cFiltro += "F2->F2_LOJA >='"+MV_PAR09+"' .AND."	
-		cFiltro += "F2->F2_LOJA >='"+MV_PAR10+"' "	
+		cFiltro += "F2->F2_LOJA <='"+MV_PAR10+"' "	
 	Else
 		cFiltro := ""
 	EndIf	
@@ -623,46 +653,7 @@ Static Function AcmDtaiPR()
 
 						nLinea += ImpMemo(oPrinter,zMemoToA("+ "+ prodstruct->C6VDOBS, 60)	,n1Linea+(nFontAlto*nLinea) , nMargIqz+25, 1100  	, nFontAlto	, oArial12	, 0			,0)	
 					endif
-/*
-					codinf = (prodstruct)->C6_CODINF
-					if codinf <> ''
-						Qrymemovirtual(codinf)
-
-						while (!((aliasmemoqry)->(EOF())))
-
-							// nLinea ++;	oPrinter:Say(n1Linea+(nFontAlto*nLinea)	,nMargIqz+50	, (aliasmemoqry)->YP_TEXTO	,	oArial12,,,,2)
-							// (aliasmemoqry)->(dbSkip())
-							tex_ok = Alltrim(STRTRAN(aliasmemoqry->YP_TEXTO,("       ","      ","     ","    ","   ","  ","\13\10"),"",1))
-							atex += tex_ok
-							
-							(aliasmemoqry)->(dbSkip())
-
-							if (aliasmemoqry)->(EOF())
-							//nLinea++; oPrinter:Say((n1Linea)+(nFontAlto*nLinea)	,nMargIqz+3	, ">"								,	oArial12,,,,2); nLinea-=0.5
-							nLinea +=0.5
-							nLinea += ImpMemo(oPrinter,zMemoToA("> "+Alltrim(atex), 75)	,(n1Linea-5)+(nFontAlto*nLinea) , nMargIqz+25, 1100  	, nFontAlto	, oArial12	, 0			,0)	
-							atex 	= ""
-							endif
-
-
-
-
-
-							If !((aliasmemoqry)->(EOF())) .and. nLinea > nLineasPag
-								AcmFootPR()
-								oPrinter:EndPage()
-								oPrinter:StartPage()
-								QueryclienteN(VarCliente)
-								AcmHeadPR()
-								(VW_OTRR)->(DBCLOSEAREA())
-								nLinea:=17
-							EndIf
-										
-							EndDo
-							aliasmemoqry->(DBCLOSEAREA())
-
-					endif
-*/					
+				
 					QryCodClie(Cclientex,Cproducto,Ctienda)
 					
 					if Alltrim(AliasQcodcli->A7_CODCLI) <>"" .OR. Alltrim(AliasQcodcli->A7_DESCCLI) <> ""
@@ -786,43 +777,7 @@ Static Function AcmDtaiPR()
 								nLinea:=17
 					EndIf
 					nLinea += ImpMemo(oPrinter,zMemoToA("+ "+ cQueryx->C6VDOBS, 60)	,n1Linea+(nFontAlto*nLinea) , nMargIqz+25, 1100  	, nFontAlto	, oArial12	, 0			,0)	
-				endif
-/*
-				codinf = (cQueryx)->C6_CODINF
-				if codinf <> ''
-					Qrymemovirtual(codinf)
-
-					while (!((aliasmemoqry)->(EOF())))
-
-						// nLinea ++;	oPrinter:Say(n1Linea+(nFontAlto*nLinea)	,nMargIqz+50	, (aliasmemoqry)->YP_TEXTO	,	oArial12,,,,2)
-
-						// (aliasmemoqry)->(dbSkip())
-						tex_ok = Alltrim(STRTRAN(aliasmemoqry->YP_TEXTO,("       ","      ","     ","    ","   ","  ","\13\10"),"",1))
-						atex += tex_ok
-
-						(aliasmemoqry)->(dbSkip())
-
-						if (aliasmemoqry)->(EOF())
-						//nLinea++; oPrinter:Say((n1Linea)+(nFontAlto*nLinea)	,nMargIqz+3	, ">"								,	oArial12,,,,2); nLinea-=0.5
-						nLinea +=0.5
-						nLinea += ImpMemo(oPrinter,zMemoToA("> " +Alltrim(atex), 75)	,(n1Linea-5)+(nFontAlto*nLinea) , nMargIqz+25, 1100  	, nFontAlto	, oArial12	, 0			,0)	
-						endif
-
-						If !((aliasmemoqry)->(EOF())) .and. nLinea > nLineasPag
-							AcmFootPR()
-							oPrinter:EndPage()
-							oPrinter:StartPage()
-							QueryclienteN(VarCliente)
-							AcmHeadPR()
-							(VW_OTRR)->(DBCLOSEAREA())
-							nLinea:=17
-						EndIf
-									
-						EndDo
-						aliasmemoqry->(DBCLOSEAREA())
-
-				endif
-*/				
+				endif			
 
 				QryCodClie(Cclientex,condProduto,Ctienda)
 				// Si existe un codigo cliente se muestra por item, si no, no
@@ -929,41 +884,7 @@ Static Function AcmDtaiPR()
 						EndIf
 						nLinea += ImpMemo(oPrinter,zMemoToA("+ "+ prodstruct->C6VDOBS, 60)	,n1Linea+(nFontAlto*nLinea) , nMargIqz+25, 1100  	, nFontAlto	, oArial12	, 0			,0)	
 					endif
-/*
-					codinf = (prodstruct)->C6_CODINF
-					if codinf <> ''
-						Qrymemovirtual(codinf)
-
-						while (!((aliasmemoqry)->(EOF())))
-
-							// nLinea ++;	oPrinter:Say(n1Linea+(nFontAlto*nLinea)	,nMargIqz+50	, (aliasmemoqry)->YP_TEXTO	,	oArial12,,,,2)
-							// (aliasmemoqry)->(dbSkip())
-							tex_ok = Alltrim(STRTRAN(aliasmemoqry->YP_TEXTO,("       ","      ","     ","    ","   ","  ","\13\10"),"",1))
-							atex += tex_ok
-
-							(aliasmemoqry)->(dbSkip())
-
-							if (aliasmemoqry)->(EOF())
-							//nLinea++; oPrinter:Say((n1Linea)+(nFontAlto*nLinea)	,nMargIqz+3	, ">"								,	oArial12,,,,2); nLinea-=0.5
-							nLinea +=0.5
-							nLinea += ImpMemo(oPrinter,zMemoToA("> "+Alltrim(atex), 75)	,(n1Linea-5)+(nFontAlto*nLinea) , nMargIqz+25, 1100  	, nFontAlto	, oArial12	, 0			,0)	
-							endif
-
-							If !((aliasmemoqry)->(EOF())) .and. nLinea > nLineasPag
-								AcmFootPR()
-								oPrinter:EndPage()
-								oPrinter:StartPage()
-								QueryclienteN(VarCliente)
-								AcmHeadPR()
-								(VW_OTRR)->(DBCLOSEAREA())
-								nLinea:=17
-							EndIf
-										
-							EndDo
-							aliasmemoqry->(DBCLOSEAREA())
-
-					endif
-*/					
+					
 					QryCodClie(Cclientex,Cproducto,Ctienda)
 					
 					if Alltrim(AliasQcodcli->A7_CODCLI) <>"" .OR. Alltrim(AliasQcodcli->A7_DESCCLI) <> ""
@@ -1087,41 +1008,6 @@ Static Function AcmDtaiPR()
 				nLinea += ImpMemo(oPrinter,zMemoToA("+ "+ cQueryx->C6VDOBS, 60)	,n1Linea+(nFontAlto*nLinea) , nMargIqz+25, 1100  	, nFontAlto	, oArial12	, 0			,0)	
 			endif
 
-/*			codinf = (cQueryx)->C6_CODINF
-			if codinf <> ''
-				Qrymemovirtual(codinf)
-
-				while (!((aliasmemoqry)->(EOF())))
-
-					// nLinea ++;	oPrinter:Say(n1Linea+(nFontAlto*nLinea)	,nMargIqz+50	, (aliasmemoqry)->YP_TEXTO	,	oArial12,,,,2)
-
-					// (aliasmemoqry)->(dbSkip())
-					tex_ok = Alltrim(STRTRAN(aliasmemoqry->YP_TEXTO,("       ","      ","     ","    ","   ","  ","\13\10"),"",1))
-					atex += tex_ok
-
-					(aliasmemoqry)->(dbSkip())
-
-					if (aliasmemoqry)->(EOF())
-					//nLinea++; oPrinter:Say((n1Linea)+(nFontAlto*nLinea)	,nMargIqz+3	, ">"								,	oArial12,,,,2); nLinea-=0.5
-					nLinea +=0.5
-					nLinea += ImpMemo(oPrinter,zMemoToA("> "+ Alltrim(atex), 75)	,(n1Linea-5)+(nFontAlto*nLinea) , nMargIqz+25, 1100  	, nFontAlto	, oArial12	, 0			,0)	
-					endif
-
-					If !((aliasmemoqry)->(EOF())) .and. nLinea > nLineasPag
-						AcmFootPR()
-						oPrinter:EndPage()
-						oPrinter:StartPage()
-						QueryclienteN(VarCliente)
-						AcmHeadPR()
-						(VW_OTRR)->(DBCLOSEAREA())
-						nLinea:=17
-					EndIf
-								
-					EndDo
-					aliasmemoqry->(DBCLOSEAREA())
-
-			endif
-*/			
 			QryCodClie(Cclientex,condProduto,Ctienda)
 			// Si existe un codigo cliente se muestra por item, si no, no
 			if Alltrim(AliasQcodcli->A7_CODCLI) <>"" .OR. Alltrim(AliasQcodcli->A7_DESCCLI) <> ""
@@ -1230,43 +1116,7 @@ Static Function AcmDtaiPR()
 								nLinea:=17
 					EndIf
 					nLinea += ImpMemo(oPrinter,zMemoToA("+ "+ cQueryx->C6VDOBS, 60)	,n1Linea+(nFontAlto*nLinea) , nMargIqz+25, 1100  	, nFontAlto	, oArial12	, 0			,0)	
-				endif
-/*
-				codinf = (cQueryx)->C6_CODINF
-				if codinf <> ''
-					Qrymemovirtual(codinf)
-
-					while (!((aliasmemoqry)->(EOF())))
-
-						// nLinea ++;	oPrinter:Say(n1Linea+(nFontAlto*nLinea)	,nMargIqz+50	, (aliasmemoqry)->YP_TEXTO	,	oArial12,,,,2)
-
-						// (aliasmemoqry)->(dbSkip())
-						tex_ok = Alltrim(STRTRAN(aliasmemoqry->YP_TEXTO,("       ","      ","     ","    ","   ","  ","\13\10"),"",1))
-						atex += tex_ok
-
-						(aliasmemoqry)->(dbSkip())
-
-						if (aliasmemoqry)->(EOF())
-						//nLinea++; oPrinter:Say((n1Linea)+(nFontAlto*nLinea)	,nMargIqz+3	, ">"								,	oArial12,,,,2); nLinea-=0.5
-						nLinea +=0.5
-						nLinea += ImpMemo(oPrinter,zMemoToA("> "+Alltrim(atex), 75)	,(n1Linea-5)+(nFontAlto*nLinea) , nMargIqz+25, 1100  	, nFontAlto	, oArial12	, 0			,0)	
-						endif
-
-						If !((aliasmemoqry)->(EOF())) .and. nLinea > nLineasPag
-							AcmFootPR()
-							oPrinter:EndPage()
-							oPrinter:StartPage()
-							QueryclienteN(VarCliente)
-							AcmHeadPR()
-							(VW_OTRR)->(DBCLOSEAREA())
-							nLinea:=17
-						EndIf
-									
-						EndDo
-						aliasmemoqry->(DBCLOSEAREA())
-
-				endif
-*/				
+				endif				
 
 				QryCodClie(Cclientex,condProduto,Ctienda)
 				// Si existe un codigo cliente se muestra por item, si no, no
