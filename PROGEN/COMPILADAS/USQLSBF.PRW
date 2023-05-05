@@ -380,7 +380,7 @@ Static Function fProcessa(cProd,cOrdesep,Cpedido,cNumseri, cTitAux,Actualiza)
 
 		// PONE RESERVADOS TODOS LOS SERIALES QUE ESTAN LEIDOS POR ACD DIFERENTES A LOS ASIGANADOS EN LA ORDEN DE SEPARACIÓN
 		Upd := "UPDATE "+RetSqlName("SBF")+" SET BF_EMPENHO=1 WHERE D_E_L_E_T_ <> '*' "
-		Upd += " AND EXISTS (SELECT 1 FROM "+RetSqlName("CB9")+" WHERE  D_E_L_E_T_ <> '*' AND CB9_NUMSER=BF_NUMSERI AND BF_LOCAL=CB9_LOCAL AND CB9_PROD=BF_PRODUTO) "
+		Upd += " AND EXISTS (SELECT 1 FROM "+RetSqlName("CB9")+" WHERE  D_E_L_E_T_ <> '*' AND CB9_NUMSER=BF_NUMSERI AND BF_LOCAL=CB9_LOCAL AND CB9_PROD=BF_PRODUTO AND CB9_ORDSEP IN (SELECT CB7_ORDSEP FROM "+RetSqlName("CB7")+" WHERE  D_E_L_E_T_ <> '*' AND CB7_ORDSEP=CB9_ORDSEP)) "
 		Upd += " AND NOT EXISTS (SELECT 1 FROM "+RetSqlName("CB8")+" WHERE  D_E_L_E_T_ <> '*'  AND CB8_NUMSER=BF_NUMSERI AND BF_LOCAL=CB8_LOCAL AND CB8_PROD=BF_PRODUTO) "
 		Upd += " AND BF_EMPENHO=0 "
 		if (Len(AllTrim(cProd))>0)
@@ -398,6 +398,9 @@ Static Function fProcessa(cProd,cOrdesep,Cpedido,cNumseri, cTitAux,Actualiza)
 			Upd += " AND BF_NUMSERI='" + AllTrim(cNumseri) +"'"
 		endif
 		n1Statud :=TCSqlExec(Upd)
+
+
+		
 
 
 
