@@ -66,14 +66,10 @@ If (cAliasSC9)->(dbSeek(xFilial(cAliasSC9)+cChave))
 	If lIsMark
 		If !Empty((cAliasSC9)->C9_ORDSEP) 
 			If CB7->( dbSeek( FWxFilial("CB7") + (cAliasSC9)->C9_ORDSEP ) )
-
-			
-				If !(!'*03' $ CB7->CB7_TIPEXP .AND. CB7->CB7_STATUS >= "4" .AND. !"*09" $ CB7->CB7_TIPEXP)
+				If (CB7->CB7_STATUS <> "2" .AND. CB7->CB7_STATUS <> "4" .AND. CB7->CB7_STATUS <> "9")
 					ApMsgAlert(STR0001 + cPedido + STR0002 + (cAliasSC9)->C9_ORDSEP + STR0003)
 					lRet := .F.	      
 				EndIf 
-				
-
 			EndiF
 		EndIf
 	Else

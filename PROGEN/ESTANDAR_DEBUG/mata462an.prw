@@ -280,7 +280,6 @@ Local lGenera       := .T.
 Local cProvFE		:= SuperGetMV("MV_PROVFE",,"")
 Local aDatosSFP        := {}
 Local lValCp        := SuperGetMV("MV_VALGREQ",,.F.)
-Local lRetSld		:= .T.
 
 Private aHeader		:=	{}
 Private aHeadSF2	:=	{}
@@ -404,8 +403,8 @@ Else
 		DbGoTop()		
 		While !(TRB->(EOF()))  			
 			If AScan(aAprRem, TRB->RECNO) > 0
-				a462ANDivid(.T.,@lRetSld) //Chama tela de selecao parcial para o item caso C9_APRREM esteja vazio
-				If a462GetOp() == 0 .Or. !lRetSld //Caso tenha cancelado, desmarca do browse para nao gerar o remito
+				a462ANDivid(.T.) //Chama tela de selecao parcial para o item caso C9_APRREM esteja vazio
+				If a462GetOp() == 0 //Caso tenha cancelado, desmarca do browse para nao gerar o remito
 					RecLock("TRB",.F.)
 					TRB->C9_OK := "  "						
 					MsUnlock()
@@ -452,15 +451,7 @@ Endif
 If cPaisLoc == "ARG" .And. SC5->(ColumnPos('C5_LOJAENT')) > 0
 	cChave	+=	"+SC5->C5_LOJAENT"
 Endif
-If cPaisLoc == "ARG" .And. SC5->(ColumnPos('C5_TRANSP')) > 0
-	cChave	+=	"+SC5->C5_TRANSP"
-Endif
-If cPaisLoc == "ARG" .And. SC5->(ColumnPos('C5_REAJUST')) > 0
-	cChave	+=	"+SC5->C5_REAJUST"
-Endif
-If cPaisLoc == "ARG" .And. SC5->(ColumnPos('C5_CONDPAG')) > 0
-	cChave	+=	"+SC5->C5_CONDPAG"
-Endif
+
 
 DbSelectArea("SC9")
 If       SF1->(ColumnPos("F1_FORMLIB")) > 0 .and.  SF2->(ColumnPos("F2_FORMLIB")) > 0 .and.  SF3->(ColumnPos("F3_FORMLIB")) > 0
@@ -500,12 +491,8 @@ While Eval( bWhile )
 	dbSeek(xFilial()+SC9->C9_PEDIDO)
 
 	DbSelectArea("SC9")
-	IF FindFunction("AcdFatOsep") .AND. !(AcdFatOsep("SC9",SC5->(Recno()),SC9->C9_PEDIDO,SC9->C9_ITEM,SC9->C9_SEQUEN ))
-		DbSelectArea("TRB")
-        TRB->(DbSkip())
-        DbSelectArea('SC9')
-        SC9->(DbGoTo(TRB->RECNO))
-        Loop
+	IF cPaisLoc== "ARG" .AND. FindFunction("AcdFatOsep") .AND. !(AcdFatOsep("SC9", ))
+		RETURN .F.
 	ENDIF
 	If IIF (!lAutomato,IIF(!lAtm,IsMark("C9_OK"),.T.) .And. Empty(SC9->C9_BLEST+SC9->C9_BLCRED+SC9->C9_REMITO), (IIF(!lAtm,.T.,.T.) .And. Empty(SC9->C9_BLEST+SC9->C9_BLCRED+SC9->C9_REMITO)))
 	
@@ -692,17 +679,6 @@ While Eval( bWhile )
 			PutSD2('D2_SEQUEN'  	,SC9->C9_SEQUEN)
 			PutSD2('D2_NUMSEQ'   ,ProxNum())
 			
-			
-			If SD2->(ColumnPos("D2_NFORI")) > 0 .And. SC6->(ColumnPos("C6_NFORI")) > 0
-				PutSD2('D2_NFORI'		,SC6->C6_NFORI)
-			EndIf
-			If SD2->(ColumnPos("D2_SERIORI")) > 0 .And. SC6->(ColumnPos("C6_SERIORI")) > 0
-				PutSD2('D2_SERIORI'		,SC6->C6_SERIORI)
-			EndIf	
-			If SD2->(ColumnPos("D2_ITEMORI")) > 0 .And. SC6->(ColumnPos("C6_ITEMORI")) > 0
-				PutSD2('D2_ITEMORI'		,SC6->C6_ITEMORI)
-			EndIf	
-			
 			If SC5->C5_TIPOREM == _RMCONS
 				PutSD2('D2_TES'      ,Posicione("SF4",1,xFilial("SF4")+SC6->C6_TES,"F4_TESENV") )
 			Else
@@ -757,10 +733,8 @@ While Eval( bWhile )
 			
 			// Calculo Valores Moeda do Pedido
 			If Alltrim(Funname()) == "MATA462AN" .And. GetNewPar('MV_DESCSAI','1') =='2' .or. ((cPaisLoc $ "PAR|MEX|EQU|COL") .and. (SC6->C6_PRUNIT == 0))
-				nPrc := SC6->C6_PRCVEN + (SC6->C6_VALDESC / SC6->C6_QTDVEN) 
-				nPrc := IIF((cPaisloc=="ARG") .AND. (SC6->C6_PRUNIT<>0),nPrc+(SC6->C6_PRUNIT - nPrc),nPrc ) //para descuentos en cascada recuperar el precio original
+				nPrc := SC6->C6_PRCVEN + SC6->C6_VALDESC / SC6->C6_QTDVEN
 				nDescUnit   := Max((nPrc - SC6->C6_PRCVEN),0)
-				
 			Else
 				nDescUnit   := Max((SC6->C6_PRUNIT - SC6->C6_PRCVEN),0)
 			Endif 
@@ -815,14 +789,17 @@ While Eval( bWhile )
 					nC5Descont	:= 	xMoeda(nC5Descont ,SC5->C5_MOEDA,nMoedSel,dDatabase,TamSx3("D2_PRUNIT")[2])
 				EndIf
 			EndIf
-			
-			If cPaisLoc $"PAR|ARG" .and. nPrecoUnit != 0
+			If cPaisLoc == "ARG" .and. nPrecoUnit != 0
+				nDesctotal := A410Arred(GetSD2('D2_QUANT') * SC6->C6_PRUNIT,"D2_DESCON") - A410Arred( GetSD2('D2_QUANT') * SC6->C6_PRCVEN,"D2_TOTAL")
+				PutSD2('D2_TOTAL'  	,A410Arred(GetSD2('D2_QUANT') * nPrecoUnit ,"D2_TOTAL"))
+				PutSD2('D2_PRCVEN'	,nPrecoUnit)
+			Else
+				If cPaisLoc =="PAR"
 					nDesctotal := A410Arred(GetSD2('D2_QUANT') * SC6->C6_PRUNIT,"D2_DESCON") - A410Arred( GetSD2('D2_QUANT') * SC6->C6_PRCVEN,"D2_TOTAL")		
-					nDesctotal	:= 	xMoeda(nDesctotal ,SC5->C5_MOEDA,nMoedSel,dDatabase,TamSx3("D2_DESCON")[2]+1)
-			EndIf
-			PutSD2('D2_TOTAL'  	,A410Arred(GetSD2('D2_QUANT') * nPrecoVenda ,"D2_TOTAL",If(cPaisLoc=="CHI",If(nTipoGer==2,nMoedSel,SC5->C5_MOEDA),NIL)))
-			PutSD2('D2_PRCVEN'	,nPrecoVenda)
-		   
+				EndIf
+				PutSD2('D2_TOTAL'  	,A410Arred(GetSD2('D2_QUANT') * nPrecoVenda ,"D2_TOTAL",If(cPaisLoc=="CHI",If(nTipoGer==2,nMoedSel,SC5->C5_MOEDA),NIL)))
+				PutSD2('D2_PRCVEN'	,nPrecoVenda)
+		    EndIf
 			PutSD2('D2_DESC'	, SC6->C6_DESCONT)
 			PutSD2('D2_DESCON'	,nDesctotal	) 
 		    PutSD2('D2_PRUNIT'  ,nPrecoUnit)
@@ -901,9 +878,6 @@ While Eval( bWhile )
 				EndIf
 				If SF2->(ColumnPos("F2_TPDOC")) > 0 .And. SC5->(ColumnPos("C5_TPDOC")) > 0
 					PutSF2('F2_TPDOC'	,SC5->C5_TPDOC)
-				EndIf
-				If SF2->(ColumnPos("F2_TPACTIV")) > 0 .And. SC5->(ColumnPos("C5_TPACTIV")) > 0
-					PutSF2('F2_TPACTIV', SC5->C5_TPACTIV) //Tipo actividad
 				EndIf				
 			Endif
 
@@ -1104,8 +1078,8 @@ While Eval( bWhile )
 			PutSF2('F2_FRETE'    ,aGastos[1])
 			PutSF2('F2_SEGURO'   ,aGastos[2])
 			PutSF2('F2_DESPESA'  ,aGastos[3])
-
-			If GetNewPar('MV_DESCSAI','1') == '2' .And. !(cPaisLoc =="PAR" .And. nPrecoUnit != 0)
+	
+			If GetNewPar('MV_DESCSAI','1') == '2'
 				PutSF2('F2_VALBRUT'  ,(GetSF2('F2_VALMERC',nPosRef)+aGastos[1]+aGastos[2]+aGastos[3])-GetSF2('F2_DESCONT',nPosRef))
 			Else
 				PutSF2('F2_VALBRUT'  ,(GetSF2('F2_VALMERC',nPosRef)+aGastos[1]+aGastos[2]+aGastos[3]))
@@ -1315,9 +1289,7 @@ For nX:=1	To Len(aSF2)
 						SC9->(DbGoTo(aSC9[nX][nY]))
 						If RecLock("SC9",.F.)
 							DbSelectArea('SC9')
-							Replace C9_OK		With "  "
-							Replace C9_BLCRED	With "10"
-							Replace C9_BLEST	With "10"
+							Replace C9_OK With "  "
 							MsUnLock()
 						Endif
 					Else
@@ -1614,9 +1586,6 @@ Local cMsg     :=  OemToAnsi(STR0036)//"El pedido esta en uso y no puede ser mar
 Local lShwHlp  :=  .F.      
 Local lM462Mrk := ExistBlock("M462MARKB")
 Local lContinua := .T.
-Local lValWMS:= FindFunction("WmsMeInt")
-Local lLibwms:=.T.
-
 
 DEFAULT lAll :=  .F.
 DEFAULT lAtu :=  .F.
@@ -1664,12 +1633,7 @@ If lContinua
 		lRet:= .T.
     Else
         For nX	:=	0	To 1 STEP 0.2
-		    lLibwms:=.T.
-			If lValWMS
-				lLibwms:=  WmsMeInt(C9_PRODUTO,.T.,lAll) 
-			EndIf
-
-            If Empty(C9_NFISCAL+C9_BLEST+C9_BLCRED+C9_REMITO) .And. lLibwms  // FindFunction("WmsMeInt") .and. WmsMeInt(C9_PRODUTO,.T.,lAll)  //verifica se existe pendencia de tarefa a ser executado na WMS
+            If Empty(C9_NFISCAL+C9_BLEST+C9_BLCRED+C9_REMITO)
                 If C9_OK <> cMarca .And. RecLock("SC9",.F.)
                     AAdd(aListRlock,SC9->(Recno()))
                     Replace C9_OK 		With cMarca
@@ -1833,12 +1797,6 @@ EndIf
 			While !EOF()
 				DbSelectArea("SC9")
 				DbGoto(TRB->RECNO)
-				//verifica se existe pendencia de tarefa a ser executado na WMS
-				If FindFunction( "WmsMeInt" ) .and. !WmsMeInt(SC9->C9_PRODUTO,.F.,.F.)
-					DbSelectArea("TRB")
-					DbSkip()
-					LOOP
-				Endif
 				If RecLock("SC9",.F.)
 					AAdd(aListRLock,SC9->(Recno()))
 					Replace C9_OK    WITH cMarca
@@ -2107,7 +2065,7 @@ Return
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 */
-Function a462ANDivid(lMarcar, lRetS)
+Function a462ANDivid(lMarcar)
 
 Local aArea     := GetArea()
 Local aAreaTRB  := TRB->(GetArea())
@@ -2123,7 +2081,6 @@ Local nPrecTotal:= 0
 Local nOpca     := 0                        
 Local cCodLiber := ""  //Codigo de Liberacao Loc. Colombia     
 Local aRetPE    := {}
-Default lRetS := .T.
 Default lMarcar := .F. //Define se deve marcar no Markbrowse quando houver divisao do SC9. Loc. Colombia.
 a462SetOp(0) //Inicializa nOpcao com 0 para recuperar quando a funcao for chamada por A462ANGera
 
@@ -2271,7 +2228,7 @@ If IsMark("C9_OK") .And. Empty(TRB->C9_BLEST+TRB->C9_BLCRED+TRB->C9_REMITO)
 			SC9->(MsUnlock())
 		EndIf	
 		If nQtdeLib <> TRB->C9_QTDLIB
-			a462ADivSC9("TRB",nQtdeLib,lMarcar,cCodLiber,@lRetS)
+			a462ADivSC9("TRB",nQtdeLib,lMarcar,cCodLiber)
 		EndIf	
 	EndIf
 	dbSelectArea("TRB")
@@ -2310,7 +2267,7 @@ Return(.T.)
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 /*/
-Static Function a462ADivSC9(cAliasTrb,nQtdNew,lMarcar,cCodLiber,lRetS)
+Static Function a462ADivSC9(cAliasTrb,nQtdNew,lMarcar,cCodLiber)
 
 Local aArea       := GetArea()
 Local aAreaSC5    := SC5->(GetArea())
@@ -2324,7 +2281,6 @@ Local nX          := 0
 Local cPedido     := (cAliasTRB)->C9_PEDIDO
 Local cItem       := (cAliasTRB)->C9_ITEM
 Local cLiberOk    := ""
-Default lRetS 	  := .T.
 Default cCodLiber := "" //Codigo de Liberacao. Loc. Colombia                              
 Default lMarcar   := .F. //Define se deve marcar no Markbrowse quando houver divisao do SC9. Loc. Colombia
 
@@ -2376,123 +2332,119 @@ If MsSeek(xFilial("SC9")+cPedido+cItem+(cAliasTRB)->C9_SEQUEN+(cAliasTRB)->C9_PR
 	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
 	//³ Divide o SC9 pela quantidades informadas                               ³
 	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
-	If !SC9->(a460Estorna())
-		lRetS := .F.
-	Else
+	SC9->(a460Estorna())
+	For nX := 1 To Len(aSaldos)
+		aOldSC6[1] := SC6->C6_LOTECTL
+		aOldSC6[2] := SC6->C6_NUMLOTE
+		aOldSC6[3] := SC6->C6_LOCALIZ
+		aOldSC6[4] := SC6->C6_NUMSERI
+		aOldSC6[5] := SC6->C6_DTVALID
+		aOldSC6[6] := SC6->C6_POTENCI
+
+		SC6->C6_LOTECTL := aSaldos[nX][1]
+		SC6->C6_NUMLOTE := aSaldos[nX][2]
+		SC6->C6_LOCALIZ := aSaldos[nX][3]
+		SC6->C6_NUMSERI := aSaldos[nX][4]
+		SC6->C6_POTENCI := aSaldos[nX][6]
+		SC6->C6_DTVALID := aSaldos[nX][7]
+
+		MaLibDoFat(SC6->(RecNo()),aSaldos[nX][5],.T.,.T.,.F.,.F.,.F.,.F.)
+							
+		SC6->C6_LOTECTL := aOldSC6[1]
+		SC6->C6_NUMLOTE := aOldSC6[2]
+		SC6->C6_LOCALIZ := aOldSC6[3]
+		SC6->C6_NUMSERI := aOldSC6[4]
+		SC6->C6_DTVALID := aOldSC6[5]
+		SC6->C6_POTENCI := aOldSC6[6]
+	Next nX
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³ Retorna o status do pedido de venda quanto a liberacao                 ³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	RecLock("SC5")
+	SC5->C5_LIBEROK := 	cLiberOk
 	
-		For nX := 1 To Len(aSaldos)
-			aOldSC6[1] := SC6->C6_LOTECTL
-			aOldSC6[2] := SC6->C6_NUMLOTE
-			aOldSC6[3] := SC6->C6_LOCALIZ
-			aOldSC6[4] := SC6->C6_NUMSERI
-			aOldSC6[5] := SC6->C6_DTVALID
-			aOldSC6[6] := SC6->C6_POTENCI
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³ Atualiza o arquivo temporario com os novos itens criados               ³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	dbSelectArea(cAliasTRB)
+	For nX := 1 To FCount()
+		aadd(aClone,FieldGet(nX))
+	Next nX
 
-			SC6->C6_LOTECTL := aSaldos[nX][1]
-			SC6->C6_NUMLOTE := aSaldos[nX][2]
-			SC6->C6_LOCALIZ := aSaldos[nX][3]
-			SC6->C6_NUMSERI := aSaldos[nX][4]
-			SC6->C6_POTENCI := aSaldos[nX][6]
-			SC6->C6_DTVALID := aSaldos[nX][7]
+	dbSelectArea("SC9")
+	dbSetOrder(1)
+	MsSeek(xFilial("SC9")+cPedido+cItem)
 
-			MaLibDoFat(SC6->(RecNo()),aSaldos[nX][5],.T.,.T.,.F.,.F.,.F.,.F.)
-								
-			SC6->C6_LOTECTL := aOldSC6[1]
-			SC6->C6_NUMLOTE := aOldSC6[2]
-			SC6->C6_LOCALIZ := aOldSC6[3]
-			SC6->C6_NUMSERI := aOldSC6[4]
-			SC6->C6_DTVALID := aOldSC6[5]
-			SC6->C6_POTENCI := aOldSC6[6]
-		Next nX
-		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
-		//³ Retorna o status do pedido de venda quanto a liberacao                 ³
-		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
-		RecLock("SC5")
-		SC5->C5_LIBEROK := 	cLiberOk
-		
-		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
-		//³ Atualiza o arquivo temporario com os novos itens criados               ³
-		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
-		dbSelectArea(cAliasTRB)
-		For nX := 1 To FCount()
-			aadd(aClone,FieldGet(nX))
-		Next nX
+	While !Eof() .And. xFilial("SC9") == SC9->C9_FILIAL .And.;
+		cPedido == SC9->C9_PEDIDO .And.;
+		cItem == SC9->C9_ITEM
+
+		If Empty(SC9->C9_BLCRED+SC9->C9_BLEST)
+			dbSelectArea(cAliasTRB)
+			dbSetOrder(1)
+			If MsSeek(xFilial("SC9")+SC9->C9_PEDIDO+SC9->C9_ITEM+SC9->C9_SEQUEN)
+			   RecLock(cAliasTRB,.F.)
+			Else
+				If !Empty(SC9->C9_REMITO)
+						dbSelectArea("SC9")
+						dbSkip()
+						Loop
+				EndIf
+				RecLock(cAliasTRB,.T.)
+				For nX := 1 To FCount()
+					FieldPut(nX,aClone[nX])
+				Next nX        			
+			EndIf                                       
+			(cAliasTRB)->C9_OK     := SC9->C9_OK			   			
+			(cAliasTRB)->C9_SEQUEN := SC9->C9_SEQUEN
+			(cAliasTRB)->C9_QTDLIB := SC9->C9_QTDLIB
+			(cAliasTRB)->RECNO     := SC9->(Recno())                  			
+			//Grava codigo da liberacao, localizacao colombia
+			If cPaisLoc == "COL" .AND. SC9->(FieldPos("C9_APRREM")) > 0					
+				//Localizacao Colombia, marcar ultimo C9 Gerado no browse				
+				If (SC9->C9_QTDLIB == nQtdNew)			                 
+					RecLock("SC9")				
+					If lMarcar
+						(cAliasTRB)->C9_OK	:= cMarca
+						SC9->C9_OK			:= cMarca
+						lMarcar				:= .F.
+					EndIf				
+					If (!Empty(cCodLiber))
+						SC9->C9_APRREM := cCodLiber 					
+						cCodLiber := ""				
+					EndIf                                               					 						
+					SC9->(MsUnlock())
+				EndIf		
+			EndIf
+			TRB->(MsUnlock())
+		EndIf
 
 		dbSelectArea("SC9")
+		dbSkip()
+	EndDo		
+	MsUnLock()
+	
+	//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+	//³ Deleta do arquivo temporario os itens as sequencias que foram perdidas ³
+	//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+	dbSelectArea(cAliasTRB)
+	dbSetOrder(1)
+	MsSeek(xFilial("SC9")+cPedido+cItem)
+	While !Eof() .And. xFilial("SC9") == (cAliasTRB)->C9_FILIAL .And.;
+		cPedido == (cAliasTRB)->C9_PEDIDO .And.;
+		cItem == (cAliasTRB)->C9_ITEM
+		dbSelectArea("SC9")
 		dbSetOrder(1)
-		MsSeek(xFilial("SC9")+cPedido+cItem)
+		If !MsSeek(xFilial("SC9")+(cAliasTRB)->C9_PEDIDO+(cAliasTRB)->C9_ITEM+(cAliasTRB)->C9_SEQUEN) .Or.;
+			!Empty(SC9->C9_BLCRED+SC9->C9_BLEST)
+			RecLock(cAliasTRB,.F.)
+			dbDelete()
+			MsUnLock()
+		EndIf
 
-		While !Eof() .And. xFilial("SC9") == SC9->C9_FILIAL .And.;
-			cPedido == SC9->C9_PEDIDO .And.;
-			cItem == SC9->C9_ITEM
-
-			If Empty(SC9->C9_BLCRED+SC9->C9_BLEST)
-				dbSelectArea(cAliasTRB)
-				dbSetOrder(1)
-				If MsSeek(xFilial("SC9")+SC9->C9_PEDIDO+SC9->C9_ITEM+SC9->C9_SEQUEN)
-				RecLock(cAliasTRB,.F.)
-				Else
-					If !Empty(SC9->C9_REMITO)
-							dbSelectArea("SC9")
-							dbSkip()
-							Loop
-					EndIf
-					RecLock(cAliasTRB,.T.)
-					For nX := 1 To FCount()
-						FieldPut(nX,aClone[nX])
-					Next nX        			
-				EndIf                                       
-				(cAliasTRB)->C9_OK     := SC9->C9_OK			   			
-				(cAliasTRB)->C9_SEQUEN := SC9->C9_SEQUEN
-				(cAliasTRB)->C9_QTDLIB := SC9->C9_QTDLIB
-				(cAliasTRB)->RECNO     := SC9->(Recno())                  			
-				//Grava codigo da liberacao, localizacao colombia
-				If cPaisLoc == "COL" .AND. SC9->(FieldPos("C9_APRREM")) > 0					
-					//Localizacao Colombia, marcar ultimo C9 Gerado no browse				
-					If (SC9->C9_QTDLIB == nQtdNew)			                 
-						RecLock("SC9")				
-						If lMarcar
-							(cAliasTRB)->C9_OK	:= cMarca
-							SC9->C9_OK			:= cMarca
-							lMarcar				:= .F.
-						EndIf				
-						If (!Empty(cCodLiber))
-							SC9->C9_APRREM := cCodLiber 					
-							cCodLiber := ""				
-						EndIf                                               					 						
-						SC9->(MsUnlock())
-					EndIf		
-				EndIf
-				TRB->(MsUnlock())
-			EndIf
-
-			dbSelectArea("SC9")
-			dbSkip()
-		EndDo		
-		MsUnLock()
-		
-		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
-		//³ Deleta do arquivo temporario os itens as sequencias que foram perdidas ³
-		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
 		dbSelectArea(cAliasTRB)
-		dbSetOrder(1)
-		MsSeek(xFilial("SC9")+cPedido+cItem)
-		While !Eof() .And. xFilial("SC9") == (cAliasTRB)->C9_FILIAL .And.;
-			cPedido == (cAliasTRB)->C9_PEDIDO .And.;
-			cItem == (cAliasTRB)->C9_ITEM
-			dbSelectArea("SC9")
-			dbSetOrder(1)
-			If !MsSeek(xFilial("SC9")+(cAliasTRB)->C9_PEDIDO+(cAliasTRB)->C9_ITEM+(cAliasTRB)->C9_SEQUEN) .Or.;
-				!Empty(SC9->C9_BLCRED+SC9->C9_BLEST)
-				RecLock(cAliasTRB,.F.)
-				dbDelete()
-				MsUnLock()
-			EndIf
-
-			dbSelectArea(cAliasTRB)
-			dbSkip()
-		EndDo
-	EndIf
+		dbSkip()
+	EndDo
 	End Transaction
 EndIf
 

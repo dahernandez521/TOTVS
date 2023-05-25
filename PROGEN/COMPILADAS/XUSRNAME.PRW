@@ -3,7 +3,7 @@
 
 User Function XUSRNAME(USR)
 
-	Local UserCod :=USR
+  Local UserCod  := USR
   Local UserNome :=""
 
 	cAlias := GetNextAlias()

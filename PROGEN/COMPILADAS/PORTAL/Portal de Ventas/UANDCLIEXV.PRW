@@ -165,7 +165,7 @@ If (cAlias)->(!Eof())
             oTask['depa']           := (cAlias)->A1_XESTENT                         //Cod Estado
             oTask['state']           := (cAlias)->A1_ESTADO                          //Estado
             oTask['muni']        := (cAlias)->A1_XCDMUEN                             //Cod Municipio
-            oTask['province']        := (cAlias)->A1_MUN                             //Municipio
+            oTask['province']        := EncodeUTF8((cAlias)->A1_MUN)                             //Municipio
             oTask['district']        := (cAlias)->A1_BAIRRO                          //Barrio
             oTask['contact']         := (cAlias)->A1_CONTATO                         //Contacto
             oTask['paymentterms']    := (cAlias)->A1_COND                            //Condicion Pago
@@ -178,7 +178,7 @@ If (cAlias)->(!Eof())
             oTask['nomdepentre']    := Alltrim(EncodeUTF8((cAlias)->A1_ESTACLI))  //Nombre Depto entrega
              oTask['totaldeb']    := (cAlias)->TOTALD                       //Total Debitos
             oTask['totalcre']    := (cAlias)->TOTALC                       //Total Creditos
-            oTask['FecVer']    := "25/04/2023"                       //Version Api
+            oTask['FecVer']    := "15/05/2023"                       //Version Api
             AAdd(aTasks, oTask)
             IF Len(aTasks) >= Self:PageSize
                 Exit

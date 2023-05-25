@@ -9,7 +9,7 @@ User Function USQLSBF()
 	Local oButton1
 	Local oButton2
 	Local oGet1
-	Local cGet1 := "Nombre_                               "
+	Local cGet1 := "Nombre_f                              "
 	Local oGroup1
 	Local oMultiGe1
 	Local cMultiGe1 := "0                         "
@@ -333,6 +333,45 @@ Static Function fProcessa(cProd,cOrdesep,Cpedido,cNumseri, cTitAux,Actualiza)
 	Upd := " UPDATE SBF020 SET BF_EMPENHO='1' WHERE D_E_L_E_T_ <>'*'  AND BF_NUMSERI IN (SELECT CB9_NUMSER FROM CB9020 WHERE D_E_L_E_T_ <>'*' AND CB9_PROD=BF_PRODUTO AND CB9_LOCAL=BF_LOCAL  AND CB9_ORDSEP IN (SELECT CB7_ORDSEP FROM CB7020 WHERE D_E_L_E_T_ <>'*' )) AND BF_EMPENHO='0' "
 	n1Statud :=TCSqlExec(Upd)
 
+
+
+
+Upd := " DROP TABLE IF EXISTS TTSC6 "
+n1Statud :=TCSqlExec(Upd)
+
+Upd := "  SELECT DISTINCT ROW_NUMBER() OVER( ORDER BY D2_PEDIDO )N_ITEMS,C6_ITEM,D2_COD,D2_PEDIDO,C6_QTDVEN,C6_QTDENT,SUM(D2_QUANT)D2_QUANT "
+Upd += "  INTO TTSC6 FROM SD2010 D2 "
+Upd += "  INNER JOIN SC6010 C6 "
+Upd += "  ON D2_PEDIDO=C6_NUM AND C6_ITEM=D2_ITEMPV AND C6_PRODUTO=D2_COD AND D2_LOCAL=C6_LOCAL AND C6.D_E_L_E_T_ <>'*' AND D2.D_E_L_E_T_ <>'*' "
+Upd += "  WHERE D2_SERIE='R' GROUP BY  C6_ITEM,D2_COD,D2_PEDIDO,C6_QTDVEN,C6_QTDENT HAVING SUM(D2_QUANT) <> C6_QTDENT and SUM(D2_QUANT)=C6_QTDVEN ORDER BY 4  DESC "
+n1Statud :=TCSqlExec(Upd)
+
+
+Upd := " UPDATE SC6010 SET C6_QTDENT=SC6010.C6_QTDVEN FROM TTSC6 TT WHERE SC6010.C6_NUM = TT.D2_PEDIDO AND SC6010.C6_ITEM=TT.C6_ITEM AND SC6010.C6_PRODUTO=TT.D2_COD "
+n1Statud :=TCSqlExec(Upd)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
 	if (UPPER(Actualiza)=='S')
 		// PONE RESERVADOS TODOS LOS SERIALES QUE ESTAN EN UNA ORDEN DE SEPARACIÓN PERO APARECEN DISPONIBLES
 		Upd := " UPDATE "+RetSqlName("SBF")+" SET BF_EMPENHO=1 WHERE D_E_L_E_T_ <> '*' "
@@ -509,6 +548,15 @@ Static Function fProcessa(cProd,cOrdesep,Cpedido,cNumseri, cTitAux,Actualiza)
 			Upd += " AND DC_NUMSERI='" + AllTrim(cNumseri) +"'"
 		endif
 		n1Statud :=TCSqlExec(Upd)
+
+
+
+
+
+		Upds := "UPDATE "+RetSqlName("CB9")+" SET D_E_L_E_T_='*' WHERE D_E_L_E_T_ <> '*' "
+		Upds += " AND NOT EXISTS (SELECT 1 FROM "+RetSqlName("CB7")+" WHERE D_E_L_E_T_ <>'*' AND CB9_ORDSEP=CB7_ORDSEP) "
+		
+		n1Statud :=TCSqlExec(Upds)
 
 
 		// Upd := " UPDATE "+RetSqlName("SB2")+" "
