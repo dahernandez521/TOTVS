@@ -9,7 +9,7 @@ User Function USQLSBF()
 	Local oButton1
 	Local oButton2
 	Local oGet1
-	Local cGet1 := "Nombre_fggggggggggg                              "
+	Local cGet1 := "Nombre_hhhhhhhhh                              "
 	Local oGroup1
 	Local oMultiGe1
 	Local cMultiGe1 := "0                         "
