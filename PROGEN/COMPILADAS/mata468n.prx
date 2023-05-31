@@ -4410,14 +4410,7 @@ If lPedidos
 		If cPaisLoc == "PAR" .and. nAcresFin <> 0
 			nItemValTot := A410Arred( nQuant * nPrcVen, "D2_TOTAL")
 		Else
-			nItemValTot := A410Arred( IIf(!(cPaisLoc $ "BRA|ARG|MEX|BOL|CHI|COL"), (SC6->C6_VALOR * SC9->C9_QTDLIB)/SC6->C6_QTDVEN, nQuant * nPrcVen), "D2_TOTAL", IIf(cPaisLoc == "CHI" .And. lPrcDec, IIf(nTipoGer == 2, nMoedSel, SC5->C5_MOEDA), NIL))
-			If cPaisLoc == "PAR"
-				If SuperGetMV("MV_ARREFAT") == "S"
-					nItemValTot	:= xmoeda(nItemValTot,SC5->C5_MOEDA, nMoedSel,ddatabase,aTamSx3Prc[2]+1,nTaxamoeda)
-				Else
-					nItemValTot	:= xmoeda(nItemValTot,SC5->C5_MOEDA, nMoedSel,ddatabase,aTamSx3Prc[2],nTaxamoeda)
-				EndIf
-			EndIf
+			nItemValTot := A410Arred( IIf(!(cPaisLoc $ "BRA|ARG|MEX|BOL|CHI|COL|PAR"), (SC6->C6_VALOR * SC9->C9_QTDLIB)/SC6->C6_QTDVEN, nQuant * nPrcVen), "D2_TOTAL", IIf(cPaisLoc == "CHI" .And. lPrcDec, IIf(nTipoGer == 2, nMoedSel, SC5->C5_MOEDA), NIL))
 		EndIf
 		If cPaisLoc=="PAR" .and. nC5Descont<>0
 			nItemValTot -= A410Arred(nQuant *  nC5Descont,"D2_TOTAL")

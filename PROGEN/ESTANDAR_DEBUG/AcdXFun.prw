@@ -1487,7 +1487,7 @@ If lSubNSer
 	Endif
 
 	If lRet
-		 lRet := CBVSUBNSER(CB8->CB8_PROD,CB8->CB8_LOCAL,cNumSer,cSerie,CB8->CB8_PEDIDO)
+		 lRet := CBVSUBNSER(CB8->CB8_PROD,CB8->CB8_LOCAL,cNumSer,cSerie)
 	EndIf
 ElseIf lRet
 	If Empty(cNumSer)
@@ -3106,7 +3106,7 @@ Valida a troca do numero de serie selecionado pelo sistema na liberação do PV;
 @Obs: VldNumSer
 /*/
 // -------------------------------------------------------------------------------------
-Function CBVSUBNSER(cProduto,cLocal,cNSerLido,cNSerSug,cBPedido)
+Function CBVSUBNSER(cProduto,cLocal,cNSerLido,cNSerSug)
 Local lRet 		:= .T.
 Local aSvSC6	:= SC6->(GetArea())
 Local aSvSC9	:= SC9->(GetArea())
@@ -3138,7 +3138,6 @@ BeginSQL Alias cAlias1
 		SDC.DC_PRODUTO = %Exp:cProduto% AND
 		SDC.DC_LOCAL = %Exp:cLocal% AND
 		SDC.DC_NUMSERI = %Exp:cNSerSug% AND
-		SDC.DC_PEDIDO = %Exp:cBPedido% AND
 		SDC.%notDel%
 EndSQL
 

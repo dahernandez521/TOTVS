@@ -4088,16 +4088,12 @@ Local nBaixa        := 0
 Local nBaixa2		:= 0
 Local nX			:= 0
 Local lRastro		:= .F.
-Local lPs 			:=.F.
-
 
 Default cSequen		:= ""
 
 If Select(cAlias1) <= 0
    Return
 EndIf
-
-aCampos := SDC->(dbStruct())
 
 If (cAlias1)->REG > 0
 	lRastro := Rastro((cAlias1)->DC_PRODUTO)
@@ -4111,34 +4107,26 @@ If (cAlias1)->REG > 0
 				AtuLibPV(@cSequen,cAlias1,"DC_LOTECTL","DC_NUMLOTE")
 			EndIf
 
-			// Atualiza o empenho		
-		SDC->( DbSetOrder(3) )
-		SDC->(DBSeek((cAlias1)->(DC_FILIAL+DC_PRODUTO+DC_LOCAL+DC_LOTECTL+DC_NUMLOTE+DC_LOCALIZ+DC_NUMSERI))) 
-		While SDC->(!Eof()) .AND. (cAlias1)->(DC_FILIAL+DC_PRODUTO+DC_LOCAL+DC_LOTECTL+DC_NUMLOTE+DC_LOCALIZ+DC_NUMSERI) = SDC->(DC_FILIAL+DC_PRODUTO+DC_LOCAL+DC_LOTECTL+DC_NUMLOTE+DC_LOCALIZ+DC_NUMSERI)
+			// Atualiza o empenho
+			aCampos := SDC->(dbStruct())
+			SDC->(dbGoTo((cAlias1)->REG))
+			RecLock("SDC",.F.)
+			SDC->(dbDelete())
+			SDC->(MsUnlock())
 
-			// If SDC->DC_PEDIDO <> ( cAlias1 )->DC_PEDIDO 
-				RecLock("SDC",.F.)
-				SDC->(dbDelete())
-				SDC->(MsUnlock())
-			// EndIf
-			SDC->( Dbskip())
-		EndDo
-
-			If !SC9->(dbSeek(xFilial("SC9")+(cAlias1)->(DC_PEDIDO+DC_ITEM+DC_SEQ+DC_PRODUTO)))
-				RecLock("SDC",.T.)
-				For nX:= 1 To Len(aCampos)
-					If (aCampos[nX,1] $ "DC_LOTECTL|DC_NUMLOTE|DC_LOCALIZ|DC_NUMSERI")
-						&(aCampos[nX,1]) := (cAlias2)->&(aCampos[nX,1])
-						Loop
-					EndIf
-					If(aCampos[nX,1] $ "DC_SEQ|DC_TRT")
-						&(aCampos[nX,1]) := cSequen
-						Loop
-					EndIf
-					&(aCampos[nX,1]) := (cAlias1)->&(aCampos[nX,1])
-				Next
-				SDC->(MsUnlock())
-			EndIf
+			RecLock("SDC",.T.)
+			For nX:= 1 To Len(aCampos)
+				If (aCampos[nX,1] $ "DC_LOTECTL|DC_NUMLOTE|DC_LOCALIZ|DC_NUMSERI")
+					&(aCampos[nX,1]) := (cAlias2)->&(aCampos[nX,1])
+					Loop
+				EndIf
+				If(aCampos[nX,1] $ "DC_SEQ|DC_TRT")
+					&(aCampos[nX,1]) := cSequen
+					Loop
+				EndIf
+				&(aCampos[nX,1]) := (cAlias1)->&(aCampos[nX,1])
+			Next
+			SDC->(MsUnlock())
 		EndIf
 
 		If SC9->(dbSeek(xFilial("SC9")+(cAlias1)->(DC_PEDIDO+DC_ITEM+DC_SEQ+DC_PRODUTO)))
@@ -4149,39 +4137,12 @@ If (cAlias1)->REG > 0
 			EndIf
 
 			// Atualiza o empenho
-			SDC->( DbSetOrder(3) )
-			SDC->(DBSeek((cAlias2)->(DC_FILIAL+DC_PRODUTO+DC_LOCAL+DC_LOTECTL+DC_NUMLOTE+DC_LOCALIZ+DC_NUMSERI))) 
-			
-			While SDC->(!Eof()) .AND. (cAlias2)->(DC_FILIAL+DC_PRODUTO+DC_LOCAL+DC_LOTECTL+DC_NUMLOTE+DC_LOCALIZ+DC_NUMSERI) = SDC->(DC_FILIAL+DC_PRODUTO+DC_LOCAL+DC_LOTECTL+DC_NUMLOTE+DC_LOCALIZ+DC_NUMSERI)
-				// aCampos := SDC->(dbStruct())
-				 If SDC->DC_PEDIDO = ( cAlias1 )->DC_PEDIDO
-					lPs :=.T.
-				 EndIf 
-					RecLock("SDC",.F.)
-					SDC->(dbDelete())
-					SDC->(MsUnlock())
-				// EndIf
-				SDC->( Dbskip())
-			EndDo
-			RecLock("SDC",.T.)
-			For nX:= 1 To Len(aCampos)
-				If (aCampos[nX,1] $ "DC_LOTECTL|DC_NUMLOTE|DC_LOCALIZ|DC_NUMSERI")
-					&(aCampos[nX,1]) := (cAlias2)->&(aCampos[nX,1])
-					Loop
-				EndIf
-				If(aCampos[nX,1] $ "DC_SEQ|DC_TRT")
-					&(aCampos[nX,1]) := cSequen
-					Loop
-				EndIf
-
-				If lPs
-					&(aCampos[nX,1]) := (cAlias2)->&(aCampos[nX,1])
-				Else
-					&(aCampos[nX,1]) := (cAlias1)->&(aCampos[nX,1])
-				EndIf
-				
-			Next
+			aCampos := SDC->(dbStruct())
+			SDC->(dbGoTo((cAlias2)->REG))
+			RecLock("SDC",.F.)
+			SDC->(dbDelete())
 			SDC->(MsUnlock())
+
 			RecLock("SDC",.T.)
 			For nX:= 1 To Len(aCampos)
 				If (aCampos[nX,1] $ "DC_LOTECTL|DC_NUMLOTE|DC_LOCALIZ|DC_NUMSERI")
@@ -4192,7 +4153,6 @@ If (cAlias1)->REG > 0
 					&(aCampos[nX,1]) := cSequen
 					Loop
 				EndIf
-				
 				&(aCampos[nX,1]) := (cAlias2)->&(aCampos[nX,1])
 			Next
 			SDC->(MsUnlock())
@@ -4208,17 +4168,10 @@ If (cAlias1)->REG > 0
 			// Apaga empenho do numero de serie sugerido e atualiza os saldos
 			//---------------------------------------------------------------------------
 			// Deleta empenho da tabela SDC
-			SDC->( DbSetOrder(3) )
-			SDC->(DBSeek((cAlias1)->(DC_FILIAL+DC_PRODUTO+DC_LOCAL+DC_LOTECTL+DC_NUMLOTE+DC_LOCALIZ+DC_NUMSERI))) 
-			While SDC->(!Eof()) .AND. (cAlias1)->(DC_FILIAL+DC_PRODUTO+DC_LOCAL+DC_LOTECTL+DC_NUMLOTE+DC_LOCALIZ+DC_NUMSERI) = SDC->(DC_FILIAL+DC_PRODUTO+DC_LOCAL+DC_LOTECTL+DC_NUMLOTE+DC_LOCALIZ+DC_NUMSERI)
-				// If SDC->DC_PEDIDO <> ( cAlias1 )->DC_PEDIDO 
-					RecLock("SDC",.F.)
-					SDC->(dbDelete())
-					SDC->(MsUnlock())
-				// EndIf
-					SDC->( Dbskip())
-			EndDo
-
+			SDC->(dbGoto((cAlias1)->REG))
+			RecLock("SDC")
+			SDC->(dbDelete())
+			MsUnlock()
 
 			// Atualiza empenhos da tabela SB8
 			If lRastro
@@ -4299,8 +4252,6 @@ If (cAlias1)->REG > 0
 		EndIf
 	EndIf
 EndIf
-
-
 
 RestArea(aSvAlias)
 RestArea(aSvSC5)
@@ -4397,6 +4348,7 @@ Local aAreaSC6 		:= SC6->(GetArea())
 Local aAreaSC9 		:= SC9->(GetArea())
 Local aEmpPronto 	:= {}
 Local aItensTrc 	:= {}
+Local aMontCarga	:= {}
 Local nQtdLib		:= 0
 Local lLoteSug 		:= .F.
 Local nQtdSep		:= 0
@@ -4405,6 +4357,8 @@ Local nY			:= 0
 Local nPos			:= 0
 Local nSaldoLote 	:= 0
 Local cItemAnt   	:= ""
+Local lEstCarga		:= SUPERGETMV("MV_ACDELCG",.F.,.F.)
+Local cFilSC9		:= xFilial("SC9")
 
 CB9->(DbSetOrder(1))
 SC6->(DbSetOrder(1))
@@ -4439,6 +4393,9 @@ For nx := 1 to Len(aItensTrc)
 		Exit
 	EndIf
 	If !lLoteSug .And. SC9->(MsSeek(xFilial("SC9")+aItensTrc[nX][1]+aItensTrc[nX][2]))
+		If !lEstCarga 
+			SC9->( aAdd(aMontCarga, { C9_CARGA, C9_SEQCAR, C9_SEQENT, C9_PEDIDO, C9_ITEM} )) 
+		EndIf 
 		SC9->(a460Estorna())
 	EndIf
 Next nX
@@ -4462,6 +4419,17 @@ If !lLoteSug
 		cItemAnt := aItensTrc[nX][1]+aItensTrc[nX][2]
 		nQtdLib := 0
 	Next nX
+
+	SC9->(DbSetOrder(1))
+	For nY:= 1 to len(aMontCarga)
+		If SC9->(MsSeek(cFilSC9+aMontCarga[nY,4]+aMontCarga[nY,5])) //Grava as informações dos campos da montagem de carga, após a liberação do pedido de venda
+			RecLock("SC9", .F.)
+			SC9->C9_CARGA 	:= aMontCarga[nY,1]
+			SC9->C9_SEQCAR	:= aMontCarga[nY,2] 
+			SC9->C9_SEQENT	:= aMontCarga[nY,3]
+			SC9->(MsUnlock())
+		EndIf
+	Next nY	
 EndIf
 
 RestArea(aAreaCB7)
@@ -4469,6 +4437,7 @@ RestArea(aAreaCB8)
 RestArea(aAreaCB9)
 RestArea(aAreaSC6)
 RestArea(aAreaSC9)
+FwFreeArray(aMontCarga)
 
 Return
 
