@@ -1986,6 +1986,7 @@ While !SC2->( Eof() )
 						If CB8->(ColumnPos("CB8_TRT")) > 0
 							CB8->CB8_TRT	:= SD4->D4_TRT
 						EndIf
+
 						If	lACD100GI
 							ExecBlock("ACD100GI",.F.,.F.)
 						EndIf
@@ -4640,7 +4641,7 @@ Return oFWLegend
 	@param nOpcx	, Numeric , Opcao para Processamento 1= Atualiza Registro / 2=Atualiza Todos
 	@param cGetMark	, Caracter, Marca Utilizada no Browser
 	@param bMark2	, Block	  , Bloco de Codigo Utilizado para Identificar se o Registro deve ser Marcado ou N?o
-	@param uAlias	, Caracter, Alias da Tabela em Uso
+	@param uAlias	, Caracter, AEndIflias da Tabela em Uso
 	@param cCpoMark	, Caracter, Campo Utilizado para Marcar/Desmarcar
 	@return lRet	, Boolean , Informa se foi possivel Atualizar o Registro
 /*/

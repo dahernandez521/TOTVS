@@ -111,6 +111,8 @@ Local lACD166VI     := ExistBlock("ACD166VI")
 Local lSai			:= .F.
 Local cWhere		:= "%1 = 1%
 Local cMVDIVERCT	:= SuperGetMV("MV_DIVERCT",.F.,"")
+Local aItemDv   :={}
+Local cMVDIVERIT	:= SuperGetMV("MV_DIVERIT",.F.,"")
 Private cCodOpe     := CBRetOpe()
 Private cImp        := CBRLocImp("MV_IACD01")
 Private cNota
@@ -253,7 +255,11 @@ While .T.
 			Loop
 		EndIf
 		If !Empty(CB8->CB8_OCOSEP) .And. Alltrim(CB8->CB8_OCOSEP) $ cDivItemPv // com ocorrencia
-			limDivIt(CB8->CB8_OCOSEP) //Duvan
+
+			If Ascan(aItemDv,{|x| x[1]+x[2]+x[3]+x[4]== CB8->(CB8_ORDSEP+CB8_PEDIDO+CB8_ITEM+CB8_SEQUEN)}) == 0
+				aAdd(aItemDv,{CB8->CB8_ORDSEP,CB8->CB8_PEDIDO,CB8->CB8_ITEM,CB8->CB8_SEQUEN})
+				A166LimDivIt(CB8->CB8_ORDSEP,CB8->CB8_PEDIDO,CB8->CB8_PROD,CB8->CB8_LOCAL,CB8->CB8_ITEM,CB8->CB8_SEQUEN,CB8->CB8_SEQUEN,CB8->CB8_NUMSER,CB8->CB8_OCOSEP) //Duvan
+			Endif 
 			(cAliasCB8)->(DbSkip()) 
 			Loop
 		EndIf
@@ -542,6 +548,7 @@ EndIf
 
 //Se existir divergencia estorna o item do pedido
 EstItemPv(lApp)
+
 If CB7->CB7_STATUS == "2"
 	If !lApp
 		VTAlert(STR0012,STR0010,.t.,4000)  //"Processo de separacao finalizado"###"Aviso"
@@ -2472,6 +2479,7 @@ While CB8->(!Eof()) .AND. ;
 	CB8->(MsUnlock())
 	CB8->(DbSkip())
 EndDo
+A166LimDivIt(CB8->(CB8_ORDSEP),CB8->(CB8_PEDIDO),CB8->(CB8_PROD),CB8->(CB8_LOCAL),CB8->(CB8_ITEM),CB8->(CB8_SEQUEN),CB8->(CB8_LOCALIZ),CB8->(CB8_NUMSER),cOcoSep)
 CB8->(MsGoto(nRecCB8))
 
 If CB7->CB7_DIVERG # "1"   // marca divergencia na ORDEM DE SEPARACAO para que esta seja arrumada
@@ -2482,6 +2490,10 @@ EndIf
 __PulaItem := .T.
 VtKeyboard(CHR(13))
 RestArea(aAreaCB8)
+
+
+
+
 Return .t.
 
 /*
@@ -3449,6 +3461,8 @@ Local  aSvSB7       := SB7->(GetArea())
 Local  aItensDiverg := {}
 Local  i
 Local  cPRESEP := CB7->CB7_PRESEP
+Local  aDiveItem := .F.
+Local cMVDIVERIT	:= SuperGetMV("MV_DIVERIT",.F.,"")
 
 Default lApp := .F.
 
@@ -3482,9 +3496,14 @@ While CB8->(!Eof() .and. CB8_ORDSEP == CB7->CB7_ORDSEP)
 		CB8->(DbSkip())
 		Loop
 	EndIf
-	If (Ascan(aItensDiverg,{|x| x[1]+x[2]+x[3]+x[6]+x[7]+x[8]== ;
-		CB8->(CB8_PEDIDO+CB8_ITEM+CB8_PROD+CB8_LOCAL+CB8_LCALIZ+CB8_SEQUEN)})) == 0
-		aAdd(aItensDiverg,{CB8->CB8_PEDIDO,CB8->CB8_ITEM,CB8->CB8_PROD,If(CB8->(CB8_QTDORI-CB8_SALDOS)==0,CB8->CB8_QTDORI,CB8->(CB8_QTDORI-CB8_SALDOS)),CB8->(Recno()),CB8->CB8_LOCAL,CB8->CB8_LCALIZ,CB8->CB8_SEQUEN})
+	If AllTrim(CB8->CB8_OCOSEP) $ cMVDIVERIT
+		CB8->(DbSkip())
+		aDiveItem := .T.
+		Loop
+	EndIf
+	If (Ascan(aItensDiverg,{|x| x[1]+x[2]+x[3]+x[6]+x[7]+x[8]+X[9]== ;
+		CB8->(CB8_PEDIDO+CB8_ITEM+CB8_PROD+CB8_LOCAL+CB8_LCALIZ+CB8_SEQUEN+CB8_ORDSEP)})) == 0
+		aAdd(aItensDiverg,{CB8->CB8_PEDIDO,CB8->CB8_ITEM,CB8->CB8_PROD,If(CB8->(CB8_QTDORI-CB8_SALDOS)==0,CB8->CB8_QTDORI,CB8->(CB8_QTDORI-CB8_SALDOS)),CB8->(Recno()),CB8->CB8_LOCAL,CB8->CB8_LCALIZ,CB8->CB8_SEQUEN,CB8->CB8_ORDSEP})
 	EndIf
 	CB8->(DbSkip())
 EndDo
@@ -3497,27 +3516,21 @@ EndIf
 
 Libera(aItensDiverg)  //Estorna a liberacao de credito/estoque dos itens divergentes ja liberados
 
-// ---- Exclusao dos itens da Ordem de Separacao com divergencia (MV_DIVERPV):
-// For i:=1 to len(aItensDiverg)
-// 	CB8->(DbGoto(aItensDiverg[i][5]))
-// 	RecLock("CB8")
-// 	CB8->(DbDelete())
-// 	CB8->(MsUnlock())
+//---- Exclusao dos itens da Ordem de Separacao com divergencia (MV_DIVERPV):
+For i:=1 to len(aItensDiverg)
 
-// 	// ---- Exclusao dos itens separados com divergencias
-// 	CB9->(DbSetOrder(9))
-// 	CB9->(DbSeek(xFilial("CB9")+CB8->(CB8_ORDSEP+CB8_PROD+CB8_LOCAL)))
-// 	While CB9->(! Eof() .and. CB9_FILIAL+CB9_ORDSEP+CB9_PROD+CB9_LOCAL == xFilial("CB9")+CB8->(CB8_ORDSEP+CB8_PROD+CB8_LOCAL))
-// 		If CB9->(CB9_ITESEP+CB9_SEQUEN) == CB8->(CB8_ITEM+CB8_SEQUEN)
-// 			RecLock("CB9")
-// 			CB9->(DbDelete())
-// 			CB9->(MsUnlock())
-// 			CB9->(DbSkip())
-// 		Else
-// 			CB9->(DbSkip())
-// 		EndIf
-// 	EndDo
-// Next i
+	CB8->(DbSetOrder(1))
+	CB8->(DbSeek(xFilial('CB8')+aItensDiverg[i][9]+aItensDiverg[i][2]+aItensDiverg[i][8]+aItensDiverg[i][3]))
+	While CB8->(!Eof()) .AND. CB8->(CB8_FILIAL+CB8_ORDSEP+CB8_ITEM+CB8_SEQUEN+CB8_PROD)==xFilial("CB8")+aItensDiverg[i][9]+aItensDiverg[i][2]+aItensDiverg[i][8]+aItensDiverg[i][3]
+		If (ALLTRIM(CB8->CB8_OCOSEP)  $ cDivItemPv)
+			RecLock("CB8",.F.)
+			CB8->(DbDelete())
+			CB8->(MsUnlock())			
+		Endif
+		CB8->(DbSkip())	
+	EndDo
+
+Next i
 
 // ---- Alteracao do CB7:
 RecLock("CB7")
@@ -3533,6 +3546,12 @@ RestArea(aSvSB7)
 RestArea(aSvSC6)
 RestArea(aSvCB8)
 RestArea(aSvAlias)
+
+
+IF aDiveItem
+	EstSeriPv(lApp)
+Endif 
+
 Return
 
 
@@ -4911,4 +4930,163 @@ Return
 
 
 
+/*
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡„o    ³ A166LimDivIt  ³ Autor ³ Duvan Hernandez       ³ Data ³ 01/06/23 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡„o ³ validar tipo de divergência                                ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Parametros³ cCodDiver     = Divergencia origen 01,02,03,04             ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Retorno   ³                                                         ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Uso       ³ SIGAACD                                                    ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+*/
 
+Function A166LimDivIt(cOrdsep,cPedio,cProd,cLocal,cItem,cSequen,cLocaliz,cNumser,cCodDiver)
+
+Local cMVDIVERIT	:= SuperGetMV("MV_DIVERIT",.F.,"")
+
+	If Alltrim(cCodDiver) $ cMVDIVERIT
+
+		CB9->(DbSetOrder(9))
+		CB9->(DbSeek(xFilial("CB9")+CB8->(CB8_ORDSEP+CB8_PROD+CB8_LOCAL)))
+		While CB9->(! Eof() .and. CB9_FILIAL+CB9_ORDSEP+CB9_PROD+CB9_LOCAL+CB9_LCALIZ+CB9_SEQUEN+CB9_NUMSER == xFilial("CB9")+cOrdsep+cProd+cLocal+cLocaliz+cSequen+cNumser)
+			If CB9->(CB9_ITESEP+CB9_SEQUEN+CB9_NUMSER) == cItem+cSequen+cNumser
+				RecLock("CB9")
+				CB9->(DbDelete())
+				CB9->(MsUnlock())
+			EndIf
+			CB9->(DbSkip())
+		EndDo
+
+	Else
+		CB8->(DbSetOrder(1))
+		CB8->(DbSeek(xFilial('CB8')+CB8->CB8_ORDSEP+CB8->CB8_ITEM+CB8->CB8_SEQUEN+CB8->CB8_PROD))
+		While CB8->(!Eof()) .AND. CB8->(CB8_FILIAL+CB8_ORDSEP+CB8_ITEM+CB8_SEQUEN+CB8_PROD)==xFilial("CB8")+cOrdsep+cItem+cSequen+cProd
+			RecLock("CB8",.F.)
+			CB8->CB8_OCOSEP := cCodDiver
+			CB8->(MsUnlock())
+			CB8->(DbSkip())	
+
+		EndDo
+
+		CB9->(DbSetOrder(9))
+		CB9->(DbSeek(xFilial("CB9")+CB8->(CB8_ORDSEP+CB8_PROD+CB8_LOCAL)))
+		While CB9->(! Eof() .and. CB9_FILIAL+CB9_ORDSEP+CB9_PROD+CB9_LOCAL == xFilial("CB9")+CB8->(CB8_ORDSEP+CB8_PROD+CB8_LOCAL))
+			If CB9->(CB9_ITESEP+CB9_SEQUEN) == cItem+cSequen
+				RecLock("CB9")
+				CB9->(DbDelete())
+				CB9->(MsUnlock())
+			EndIf
+			CB9->(DbSkip())
+		EndDo
+
+	Endif
+
+Return
+
+
+/*
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±ÚÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄ¿±±
+±±³Fun‡ao    ³ EstSeriPv ³ Autor ³ ACD                 ³ Data ³ 23/02/05 ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡ao ³ Estorna Seriales do Pedido de Vendas                         ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ SIGAACD                                                   ³±±
+±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+*/
+Static Function EstSeriPv(lApp)
+Local  aSvAlias     := GetArea()
+Local  aSvCB8       := CB8->(GetArea())
+Local  aSvSC6       := SC6->(GetArea())
+Local  aSvSB7       := SB7->(GetArea())
+Local  aItensDiverg := {}
+Local  i
+Local  cPRESEP := CB7->CB7_PRESEP
+Local cMVDIVERIT	:= SuperGetMV("MV_DIVERIT",.F.,"")
+
+Default lApp := .F.
+
+// Verifica se a Ordem de separacao possui pre-separacao se possuir verificar se existe divergencia
+// excluindo o item do pedido de venda.
+If !Empty(CB7->CB7_PRESEP)
+	CB7->(DbSetOrder(1))
+	If CB7->(DbSeek(xFilial("CB7")+cPRESEP))
+		If CB7->CB7_DIVERG # "1"
+	   		RestArea(aSvSB7)
+		EndIf
+		cOrdSep := cPRESEP
+	EndIf
+EndIf
+
+CB8->(DbSetOrder(1))
+CB8->(DbSeek(xFilial("CB8")+CB7->CB7_ORDSEP))
+
+If CB8->CB8_CFLOTE <> "1" .And. !lApp	// Funcionalidade para troca de lote nao disponivel pelo App
+	v166TcLote (CB7->CB7_ORDSEP)
+EndIf
+
+
+CB8->(DbSetOrder(1))
+CB8->(DbSeek(xFilial("CB8")+CB7->CB7_ORDSEP))
+While CB8->(!Eof() .and. CB8_ORDSEP == CB7->CB7_ORDSEP)
+	If !AllTrim(CB8->CB8_OCOSEP) $ cMVDIVERIT
+		CB8->(DbSkip())
+		Loop
+	EndIf
+	If (Ascan(aItensDiverg,{|x| x[1]+x[2]+x[3]+x[6]+x[7]+x[8]+X[9]+X[10]== ;
+		CB8->(CB8_PEDIDO+CB8_ITEM+CB8_PROD+CB8_LOCAL+CB8_LCALIZ+CB8_SEQUEN+CB8_ORDSEP+CB8_NUMSER)})) == 0
+		aAdd(aItensDiverg,{CB8->CB8_PEDIDO,CB8->CB8_ITEM,CB8->CB8_PROD,If(CB8->(CB8_QTDORI-CB8_SALDOS)==0,CB8->CB8_QTDORI,CB8->(CB8_QTDORI-CB8_SALDOS)),CB8->(Recno()),CB8->CB8_LOCAL,CB8->CB8_LCALIZ,CB8->CB8_SEQUEN,CB8->CB8_ORDSEP,CB8->CB8_NUMSER})
+	EndIf
+	CB8->(DbSkip())
+EndDo
+If Empty(aItensDiverg)
+	RestArea(aSvSC6)
+	RestArea(aSvCB8)
+	RestArea(aSvAlias)
+	Return
+EndIf
+
+Libera(aItensDiverg)  //Estorna a liberacao de credito/estoque dos itens divergentes ja liberados
+
+//---- Exclusao dos itens da Ordem de Separacao com divergencia (MV_DIVERPV):
+For i:=1 to len(aItensDiverg)
+
+	CB8->(DbSetOrder(1))
+	CB8->(DbSeek(xFilial('CB8')+aItensDiverg[i][9]+aItensDiverg[i][2]+aItensDiverg[i][8]+aItensDiverg[i][3]))
+	While CB8->(!Eof()) .AND. CB8->(CB8_FILIAL+CB8_ORDSEP+CB8_ITEM+CB8_SEQUEN+CB8_PROD)==xFilial("CB8")+aItensDiverg[i][9]+aItensDiverg[i][2]+aItensDiverg[i][8]+aItensDiverg[i][3]
+		If (ALLTRIM(CB8->CB8_OCOSEP)  $ cMVDIVERIT)
+			RecLock("CB8",.F.)
+			CB8->(DbDelete())
+			CB8->(MsUnlock())			
+		Endif
+		CB8->(DbSkip())	
+	EndDo
+
+Next i
+
+// ---- Alteracao do CB7:
+RecLock("CB7")
+CB8->(dbSetOrder(1))
+If !CB8->(MsSeek(xFilial("CB8")+CB7->CB7_ORDSEP))
+	CB7->(dbDelete())
+EndIf
+CB7->(MsUnlock())
+
+RestArea(aSvSB7)
+RestArea(aSvSC6)
+RestArea(aSvCB8)
+RestArea(aSvAlias)
+Return

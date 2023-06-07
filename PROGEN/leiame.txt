@@ -1,0 +1,17 @@
+Fontes do Pacote:
+ANALISE.PRW - Rotina para corrigir o desbalanceamento de movimentos(SD1xSD2xSD3xSDAxSD5xSDB) e saldos (SB9xSBJxSBKxSB2xSB8xSBF).
+RELANALI.PRW - Relatório para identificar os produtos com divergências.
+PE_MA300OK.PRW - Ponto de entrada da rotina MATA300 para sugerir o produto/armazém automaticamente.
+------------------------------------------------------------------------------------------------------------------------------------
+Sobre a rotina ANALISE:
+Senha de Acesso: tudox
+MV_AUSUGRV - parâmetro para informar o código do usuário para permitir realizar os ajustes. Exemplo: 000000|000002|000394
+MV_ASENHAA - parâmetro para trocar a senha padrão.
+A rotina faz ajustes para produto com controle rastro, endereço e número de série.
+------------------------------------------------------------------------------------------------------------------------------------
+Arquivo ANALISE.KEY:
+Esse arquivo deve ser copiado para a pasta system do Protheus.
+------------------------------------------------------------------------------------------------------------------------------------
+Parâmetro MV_WMSNEW
+A rotina não está preparada para o novo WMS.
+------------------------------------------------------------------------------------------------------------------------------------
