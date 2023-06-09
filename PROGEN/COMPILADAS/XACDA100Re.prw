@@ -12,7 +12,7 @@ User Function xACD10Re()
 	Private lAbortPrint  := .F.
 	Private limite       := 132
 	Private tamanho      := "G"
-	Private nomeprog     := "ACD10xR" // Coloque aqui o nome do programa para impressao no cabecalho
+	Private nomeprog     := "ACD10x_" // Coloque aqui o nome do programa para impressao no cabecalho
 	Private nTipo        := 18
 	Private aReturn      := {STR0117,1,STR0118,2,2,1,"",1}  //"Zebrado"###"Administracao"
 	Private nLastKey     := 0

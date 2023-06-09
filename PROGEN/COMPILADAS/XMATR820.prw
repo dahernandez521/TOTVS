@@ -152,7 +152,8 @@ Static Function ReportDef()
 	TRCell():New(oSection1,'C2_DATAJF'	,'SC2',/*Titulo*/,/*Picture*/					,/*Tamanho*/			,/*lPixel*/,{|| DTOC((cAliasTop)->C2_DATAJF) })
 	TRCell():New(oSection1,'RealIni'	,'SC2',STR0044   ,/*Picture*/                 ,8						,/*lPixel*/,{|| "__/__/__" })
 	TRCell():New(oSection1,'RealFim'	,'SC2',STR0045   ,/*Picture*/                 ,8						,/*lPixel*/,{|| "__/__/__" })
-	TRCell():New(oSection1,'C2_OBS'		,'SC2',/*Titulo*/,/*Picture*/					,/*Tamanho*/			,/*lPixel*/,/*{|| code-block de impressao }*/)
+	TRCell():New(oSection1,'C2_OBS'		,'SC2',/*Titulo*/,/*Picture*/					,/*Tamanho*/			,/*lPixel*/,{|| (cAliasTop)->C2_OBS1 })
+	TRCell():New(oSection1,'C2_OBS'		,'SC2','         ',/*Picture*/					,/*Tamanho*/			,/*lPixel*/,{|| (cAliasTop)->C2_OBS2 })
 
 	oSection1:Cell('B1_DESC'  ):SetCellBreak()
 	oSection1:Cell('C2_EMISSAO'):SetCellBreak()
@@ -166,6 +167,7 @@ Static Function ReportDef()
 	oSection1:Cell('C2_DATPRF'):SetCellBreak()
 	oSection1:Cell('C2_DATAJF'):SetCellBreak()
 	oSection1:Cell('RealFim'  ):SetCellBreak()
+	oSection1:Cell('C2_OBS'  ):SetCellBreak()
 
 	//旼컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴커
 	//� Sessao 2 (oSection2)                                         �
@@ -355,6 +357,8 @@ Static Function ReportPrint(oReport, cAliasTop)
 			SC2.C2_DATAJF,
 			SC2.C2_STATUS,
 			SC2.C2_OBS,
+			SUBSTRING(SC2.C2_OBS,1,125) C2_OBS1,
+			'.           '+SUBSTRING(SC2.C2_OBS,126,300) C2_OBS2,
 			SC2.C2_TPOP,
 			SC2.R_E_C_N_O_ SC2RECNO,
 			SC2.C2_EMISSAO
