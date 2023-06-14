@@ -100,7 +100,7 @@ MV_PAR06 - Pre-Separacao       ?
 
 
 */  
-Function ACDA100()
+User Function XuACDA100()
 Local aCoresUsr := {}
 PRIVATE aRotina := MenuDef()
 
@@ -181,7 +181,7 @@ Return
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 */
 
-Function ACDA100Vs(cAlias,nReg,nOpcx)
+User Function ACDA100Vs(cAlias,nReg,nOpcx)
 Local oDlg
 Local oGet
 
@@ -213,7 +213,7 @@ If ! CB8->( dbSeek( cSeekCB8 ) )
 EndIf
 
 If lEmbal
-	aadd(aButtons, {'AVGBOX1',{||MsgRun(STR0121,STR0122,{|| ConsEmb(aHeader,aCols) })},STR0123,STR0123}) //"Carregando consulta, aguarde..."###"Ordem de Separação"###"Embalagens"###"Embalagens"
+	aadd(aButtons, {'AVGBOX1',{||MsgRun(STR0121,STR0122,{|| XConsEmb(aHeader,aCols) })},STR0123,STR0123}) //"Carregando consulta, aguarde..."###"Ordem de Separação"###"Embalagens"###"Embalagens"
 Endif
 //ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
 //³ Adiciona botoes do usuario na EnchoiceBar                              ³
@@ -275,7 +275,7 @@ Return
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 */
 
-Function ACDA100Al(cAlias,nReg,nOpcx)
+User Function ACDA100Al(cAlias,nReg,nOpcx)
 Local oDlg
 Local cSeekCB8 := xFilial("CB8") + CB7->CB7_ORDSEP
 Local nOpca := 0
@@ -528,7 +528,7 @@ Return
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 /*/
 
-Function ACD100LinOK()
+User Function ACD100LinOK()
 Local lRet    := .F.
 Local lPreSep :=("09*" $ CB7->CB7_TIPEXP)
 Local nPosDel:= Len(aHeader)+1
@@ -573,7 +573,7 @@ Return lRet
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 /*/
 
-Function ACD100TudOK()
+User Function ACD100TudOK()
 Local nX
 Local nLinhas := 0
 Local nPosDel := Len(aHeader)+1
@@ -611,7 +611,7 @@ Return lRet
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 */
 
-Function ACDA100Et(cAlias,nReg,nOpcx)
+User Function ACDA100Et(cAlias,nReg,nOpcx)
 
 Local oDlg
 Local oGet
@@ -804,7 +804,7 @@ Return
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 */
-Function ACDA100Gr()
+User Function ACDA100Gr()
 Local aRotBack  := {}
 Local cCondicao := ""
 Local aNewFil   := {}
@@ -1012,7 +1012,7 @@ Return( lRet )
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 */
 
-Function ACDA100_Grava(cAlias,cCampo,nOpcE,cMarca,lInverte,lNoDupl, oBrwMrk )
+User Function ACDA100_Grava(cAlias,cCampo,nOpcE,cMarca,lInverte,lNoDupl, oBrwMrk )
 If nOrigExp==1
 	Processa( { || GeraOSepPedido( cMarca, lInverte, Nil, oBrwMrk ) } ) 
 ElseIf nOrigExp==2
@@ -1986,7 +1986,6 @@ While !SC2->( Eof() )
 						If CB8->(ColumnPos("CB8_TRT")) > 0
 							CB8->CB8_TRT	:= SD4->D4_TRT
 						EndIf
-
 						If	lACD100GI
 							ExecBlock("ACD100GI",.F.,.F.)
 						EndIf
@@ -2109,7 +2108,7 @@ EndIf
 
 Return
 
-Static Function RetItemCB8(cOrdSep,aItemCB8)
+STATIC Function RetItemCB8(cOrdSep,aItemCB8)
 
 Local nPos := Ascan(aItemCB8,{|x| x[1] == cOrdSep})
 Local cItem :=' '
@@ -2138,7 +2137,7 @@ Return cItem
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 */
 
-Function ACDA100Re()
+User Function ACDA100Re()
 Local lContinua      := .T.
 Local lCustRel		 := ExistBlock("ACD100RE")
 Local cCustRel		 := ""
@@ -2226,7 +2225,7 @@ Return
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 /*/
 
-Static Function Relatorio()
+STATIC Function Relatorio()
 
 CB7->(DbSetOrder(1))
 CB7->(DbSeek(xFilial("CB7")+MV_PAR01,.T.)) // Posiciona no 1o.reg. satisfatorio 
@@ -2271,7 +2270,7 @@ Return
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 /*/
 
-Static Function Imprime(lRet)
+STATIC Function Imprime(lRet)
 Local cOrdSep := Alltrim(CB7->CB7_ORDSEP)
 Local cPedido := Alltrim(CB7->CB7_PEDIDO)
 Local cCliente:= Alltrim(CB7->CB7_CLIENT)
@@ -2358,7 +2357,7 @@ Return
 //³ Finaliza impressao                                                  ³
 //ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
 
-Static Function Fim()
+STATIC Function Fim()
 
 SET DEVICE TO SCREEN
 If aReturn[5]==1
@@ -2383,7 +2382,7 @@ Return
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 /*/
 
-Static Function RetStatus(cStatus)
+STATIC Function RetStatus(cStatus)
 Local cDescri:= " "
 
 If Empty(cStatus) .or. cStatus == "0"
@@ -2426,7 +2425,7 @@ Return(cDescri)
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 */
 
-Function ACDA100Lg()
+User Function ACDA100Lg()
 Local aCorDesc 
 Local aCorUsr
 aCorDesc := {	{ "DISABLE",	STR0016 },; //"- Divergencia"
@@ -2463,7 +2462,7 @@ Return( .T. )
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 */
-Static Function MontaCols(cSeekCB8,oGet)
+STATIC Function MontaCols(cSeekCB8,oGet)
 Local nCnt,nUsado, nI
 
 If Type("oTimer") == "O"
@@ -2532,7 +2531,7 @@ Return
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 */
-static Function TimerBrw(oMBrowse)
+STATIC Function TimerBrw(oMBrowse)
 Local oTimer
 DEFINE TIMER oTimer INTERVAL 1000 ACTION TmBrowse(GetObjBrow(),oTimer) OF oMBrowse
 oTimer:Activate()
@@ -2556,7 +2555,7 @@ Return .T.
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 */
-static Function TmBrowse(oObjBrow,oTimer)
+STATIC Function TmBrowse(oObjBrow,oTimer)
 oTimer:Deactivate()
 oObjBrow:Refresh()
 oTimer:Activate()
@@ -2579,7 +2578,7 @@ Return .T.
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 */
-Function ACDA100OC()
+User Function ACDA100OC()
 aCols[n,GdFieldPos("CB8_DESOCS",aHeader)] := Posicione("CB4",1,xFilial("CB4")+M->CB8_OCOSEP,"CB4_DESCRI")
 Return .T.
 
@@ -2600,7 +2599,7 @@ Return .T.
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 */
 
-Static Function LogACDA100()
+STATIC Function LogACDA100()
 Local i, j, k
 Local cChaveAtu, cPedCli, cOPAtual
 
@@ -2722,7 +2721,7 @@ Return
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 */
-Static Function MostraParam(cTipGer)
+STATIC Function MostraParam(cTipGer)
 Local cPergParam  := ""
 Local cPergConfig := ""
 Local cDescTipGer := ""
@@ -2835,7 +2834,7 @@ Return
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 */
-Static Function AtivaF12(nOrigExp)
+STATIC Function AtivaF12(nOrigExp)
 Local lPerg := .F.
 Local lRet  := .T.
 If	nOrigExp == NIL
@@ -2894,7 +2893,7 @@ Return
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 */
-Static Function RetSldSDC(cProd,cLocal,cOP,lRetSaldo,cLote,cSublote,cSequen)
+STATIC Function RetSldSDC(cProd,cLocal,cOP,lRetSaldo,cLote,cSublote,cSequen)
 Local aArea     := GetArea()
 Local aAreaSDC  := SDC->(GetArea())
 Local nSaldoSDC := 0
@@ -2961,7 +2960,7 @@ Return If(lRetSaldo,nSaldoSDC,aSaldoSDC)
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 */
-Static Function RetSldEnd(cProd,lRetSaldo,aVarAlt, cLocPad, lGroupLoc, cArmPA )
+STATIC Function RetSldEnd(cProd,lRetSaldo,aVarAlt, cLocPad, lGroupLoc, cArmPA )
 Local aArea     := GetArea()
 Local aAreaSBF  := SBF->(GetArea())
 Local cArmProc  := GetMvNNR('MV_LOCPROC','99')
@@ -3077,7 +3076,7 @@ Return If(lRetSaldo,nSaldoSBF,aSaldoSBF)
 ±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß*/
-Static Function RetSldCB8(cProd,cLocal,cLocaliz,cNumSerie,cLote,cSubLote)
+STATIC Function RetSldCB8(cProd,cLocal,cLocaliz,cNumSerie,cLote,cSubLote)
 Local aArea     := GetArea()
 Local aAreaCB7  := CB7->(GetArea())
 Local nSaldoCB8 := 0
@@ -3113,7 +3112,7 @@ Return nSaldoCB8
 ±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß*/
-Static Function SemSldOS()
+STATIC Function SemSldOS()
 Local nUnPA := 0
 Local nX
 
@@ -3178,7 +3177,7 @@ Return .f.
 ±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß*/
-Static Function RetEmpOS(lConsEst,cProdEmp,nQtdEmp)
+STATIC Function RetEmpOS(lConsEst,cProdEmp,nQtdEmp)
 Local nPos
 
 If !lConsEst
@@ -3200,7 +3199,7 @@ Return aEmp[nPos,07]
 ±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß*/
-Static Function AltEmp(aHeaderEmp,aColsEmp)
+STATIC Function AltEmp(aHeaderEmp,aColsEmp)
 Local nOpcao   := 0
 Local cPictCB8 := PesqPict('CB8','CB8_SALDOS')
 Local oDlgEmp 
@@ -3338,7 +3337,7 @@ Return
 ±±ÈÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼±±
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß*/
-Static Function RetHeaderForm()
+STATIC Function RetHeaderForm()
 Local aHeaderTMP := {}
 
 AADD(aHeaderTMP,{ STR0148		,"cLocSug" 		,"@!"						,02,0,,,"C","","","",,".F."}) //"Local"
@@ -3360,7 +3359,7 @@ Return aClone( aHeaderTMP )
 ±±ÈÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼±±
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß*/
-Static Function RetColsForm()
+STATIC Function RetColsForm()
 
 Local cArmOri   := GDFGet2("CB8_LOCAL")
 Local cEndOri   := GDFGet2("CB8_LCALIZ")
@@ -3397,7 +3396,7 @@ Return aClone( aColsTMP )
 ±±ÈÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼±±
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß*/
-Function A100VQt(nQtde,lAtualiza)
+User Function A100VQt(nQtde,lAtualiza)
 
 Local cProduto  := GDFGet2("CB8_PROD")
 Local cArmOri   := GDFGet2("CB8_LOCAL")
@@ -3498,7 +3497,7 @@ Return .t.
 ±±ÈÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼±±
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß*/
-Function A100LLOK()
+User Function A100LLOK()
 Local lJaSeparou := nQtdSep > 0
 If aColsForm[n,7]
 	Return .t.
@@ -3525,7 +3524,7 @@ Return .t.
 ±±ÈÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼±±
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß*/
-Static Function VldLinDel(aCols,nPosAtu,oGetDados,nQtdSep,nQtdOri)
+STATIC Function VldLinDel(aCols,nPosAtu,oGetDados,nQtdSep,nQtdOri)
 Local lJaSeparou := nQtdSep > 0
 
 If !aTail(aCols[nPosAtu])
@@ -3562,7 +3561,7 @@ Return .F.
 ±±ÈÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼±±
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß*/
-Static Function VldItens()
+STATIC Function VldItens()
 
 Local cArmOri   := GDFGet2("CB8_LOCAL")
 Local cEndOri   := GDFGet2("CB8_LCALIZ")
@@ -3592,7 +3591,7 @@ If nQtdSldInf == 0
 	Return 1
 Endif
 
-If nQtdSldInf != 0 
+If nQtdTMP <> nQtdSldInf
 	MsgAlert(STR0159) //"Ainda existe saldo a ser informado. Verifique!!!"
 	Return 0
 Endif
@@ -3609,7 +3608,7 @@ Return 1
 ±±ÈÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼±±
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß*/
-Static Function AtuSldInf(lAtuTela,nQtdOri)
+STATIC Function AtuSldInf(lAtuTela,nQtdOri)
 Local nQtdInfo := 0
 Local nX
 
@@ -3634,7 +3633,7 @@ Return
 ±±ÈÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼±±
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß*/
-Static Function ShowF4()
+STATIC Function ShowF4()
 Local cProdAtu  := GDFGet2("CB8_PROD")
 Local cArmOri   := GDFGet2("CB8_LOCAL")
 Local cEndOri   := GDFGet2("CB8_LCALIZ")
@@ -3704,7 +3703,7 @@ Return
 ±±ÈÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼±±
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß*/
-Static Function AtuNovosEmp(aHeaderEmp,aColsEmp,nAtaCols)
+STATIC Function AtuNovosEmp(aHeaderEmp,aColsEmp,nAtaCols)
 Local nPosPROD   := Ascan(aHeaderEmp,{|x| UPPER(AllTrim(x[2]))=="CB8_PROD" })
 Local nPosLOCAL  := Ascan(aHeaderEmp,{|x| UPPER(AllTrim(x[2]))=="CB8_LOCAL" })
 Local nPosLCALIZ := Ascan(aHeaderEmp,{|x| UPPER(AllTrim(x[2]))=="CB8_LCALIZ" })
@@ -3777,7 +3776,7 @@ Return
 ±±ÈÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼±±
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß*/
-Static Function GravaCB8()
+STATIC Function GravaCB8()
 Local nX
 Local nJ
                  
@@ -3825,7 +3824,7 @@ Return
 ±±ÀÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ±±
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß*/
-Static Function ProcAtuEmp(aItensEmp,lEstorno,aDadosSD4)
+STATIC Function ProcAtuEmp(aItensEmp,lEstorno,aDadosSD4)
 
 // Parametros para a chamada da Funcao GravaEmp
 Local cOrigem     	:= If(CB7->CB7_ORIGEM=="1","SC6","SC2")	// Indica a Origem do Empenho (SC6,SD3...)
@@ -3942,7 +3941,7 @@ Return .t.
 ±±ÈÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼±±
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß*/
-Static Function LimpaInfoOS()
+STATIC Function LimpaInfoOS()
 Local	nPosPed    := Ascan(aHeader,{|x| UPPER(AllTrim(x[2]))=="CB8_PEDIDO" })
 Local	nPosItPed  := Ascan(aHeader,{|x| UPPER(AllTrim(x[2]))=="CB8_ITEM"   })
 Local	nPosSeqPed := Ascan(aHeader,{|x| UPPER(AllTrim(x[2]))=="CB8_SEQUEN" })
@@ -4045,7 +4044,7 @@ Return
 ±±ÈÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼±±
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß*/
-Static Function AtuCB7()
+STATIC Function AtuCB7()
 Local nPosSaldoS := Ascan(aHeader,{|x| UPPER(AllTrim(x[2]))=="CB8_SALDOS" })
 Local nPosDel    := Len(aHeader)+1
 Local lOK        := .t.
@@ -4081,7 +4080,7 @@ Return
 ±±ÈÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼±±
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß*/
-Static Function ConsEmb()
+STATIC Function XConsEmb()
 
 Local oDlgVol
 Local aButtons := {}
@@ -4197,7 +4196,7 @@ Return
 ±±ÈÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼±±
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß*/
-Static Function AtuTreeVol(oPanelCB3,oTreeVol,oPanelCB3,oEncCB3,oEncCB6,oEncCB9)
+STATIC Function AtuTreeVol(oPanelCB3,oTreeVol,oPanelCB3,oEncCB3,oEncCB6,oEncCB9)
 Local aAreaCB9 := CB9->(GetArea())
 Local cDescItem
 Local cSubVolAtu
@@ -4280,7 +4279,7 @@ Return
 ±±ÈÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼±±
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß*/
-Static Function AtuEncDir(cCargoAtu,oPanelCB3,oEncCB3,oEncCB6,oEncCB9)
+STATIC Function AtuEncDir(cCargoAtu,oPanelCB3,oEncCB3,oEncCB6,oEncCB9)
 Local nTamVol    := TamSX3("CB9_VOLUME")[01]
 Local nTamSubVol := TamSX3("CB9_SUBVOL")[01]
 Local cVolume
@@ -4318,7 +4317,7 @@ Return
 ±±ÈÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼±±
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß*/
-Static Function ImpEtiqVol(cCargoAtu)
+STATIC Function ImpEtiqVol(cCargoAtu)
 Local nTamVol    := TamSX3("CB9_VOLUME")[01]
 Local nTamSubVol := TamSX3("CB9_SUBVOL")[01]
 Local aRet       := {}
@@ -4409,7 +4408,7 @@ Return
 ±±ÈÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼±±
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß*/
-Static Function GDFGet2(cCampo)
+STATIC Function GDFGet2(cCampo)
 Local nPosCmp := Ascan(aHeaderAtu,{|x| Upper(Alltrim(x[2]))==cCampo})
 Local xRet
 
@@ -4428,7 +4427,7 @@ Return xRet
 ±±ÈÍÍÍÍÍÍÍÍÍÍÏÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼±±
 ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß*/
-Static Function VldImpEtiq()
+STATIC Function VldImpEtiq()
 
 If	(CB7->CB7_STATUS == "0" .Or. CB7->CB7_STATUS == "1") .Or. ;
 	("02" $ CB7->CB7_TIPEXP .And. (CB7->CB7_STATUS == "2" .Or. CB7->CB7_STATUS == "3")) .Or. ;
@@ -4450,7 +4449,7 @@ Return .T.
 
 @type function
 /*/
-Static Function ACD100Perg(cPerg)
+STATIC Function ACD100Perg(cPerg)
 Local aRet		:= {}
 Local nX		:= 0
 Local nY		:= 0
@@ -4532,7 +4531,7 @@ Return aRet
 
 @type function
 /*/
-Function IsPrdApInd( cProduto )
+User Function IsPrdApInd( cProduto )
 Local lRet		:= .T.
 Local aArea		:= GetArea()
 Local aAreaSB1	:= SB1->( GetArea() )
@@ -4565,7 +4564,7 @@ encapsulamento da funcao do frame que retorna a versão da lib do repositorio
 
 @type function
 /*/
-Static Function ACDLibVersion()
+STATIC Function ACDLibVersion()
 	Local cVersao := ""
 	/*
 	 * A chamada da funcao __FWLibVersion esta sendo utilizada, conforme acordado com o framework.
@@ -4595,7 +4594,7 @@ Return cVersao
 	(examples)
 	@see (links_or_references)
 	/*/
-Static Function MenuDef()
+STATIC Function MenuDef()
 
 Local aRotMenu := { } 
 
@@ -4606,7 +4605,8 @@ Local aRotMenu := { }
 							{STR0004		,"ACDA100Et",0,5},;   //"Estornar"
 							{STR0005		,"ACDA100Gr",0,3},;   //"Gerar"
 							{STR0116		,"ACDA100Re",0,4},;   //"Impressao"
-							{STR0006		,"ACDA100Lg",0,3}}    //"Legenda"
+							{STR0006		,"ACDA100Lg",0,3},;    //"Legenda"
+							{"Liberar OS"		,"U_XLIBEROS",0,3}}    //"Legenda"
 	
 Return aRotMenu
 
@@ -4619,7 +4619,7 @@ Return aRotMenu
 	@param aLegend	 , Array  , Vetor com as Informacoes para Montagem da Legenda
 	@return oFWLegend, Object , Objeto FwLegend Criado
 /*/
-Static Function a1002Leg( aLegend )
+STATIC Function a1002Leg( aLegend )
 Default aLegend := {}
 oFWLegend := IIf( Type( "oFWLegend" ) == "U", Nil, oFWLegend )
 
@@ -4641,11 +4641,11 @@ Return oFWLegend
 	@param nOpcx	, Numeric , Opcao para Processamento 1= Atualiza Registro / 2=Atualiza Todos
 	@param cGetMark	, Caracter, Marca Utilizada no Browser
 	@param bMark2	, Block	  , Bloco de Codigo Utilizado para Identificar se o Registro deve ser Marcado ou N?o
-	@param uAlias	, Caracter, AEndIflias da Tabela em Uso
+	@param uAlias	, Caracter, Alias da Tabela em Uso
 	@param cCpoMark	, Caracter, Campo Utilizado para Marcar/Desmarcar
 	@return lRet	, Boolean , Informa se foi possivel Atualizar o Registro
 /*/
-Static Function a100Mark( oBrwMrk, nOpcx, cGetMark, bMark2, uAlias, cCpoMark )
+STATIC Function a100Mark( oBrwMrk, nOpcx, cGetMark, bMark2, uAlias, cCpoMark )
 Local lRet		:= .T.
 Local bMarkRec	:= { || IIf( Eval( bMark2 ) , IIf( AllTrim( &( ( uAlias )->( cCpoMark ) ) ) == AllTrim( cGetMark ), CriaVar( cCpoMark, .F.), AllTrim( cGetMark ) ) , CriaVar( cCpoMark, .F.) ) }
 
@@ -4686,7 +4686,7 @@ Return lRet
 	@param nAglutArm, Integer , Indica Se Devemos Aglutinar Armazem 1=Sim/2=Nao
 	@return aItens	, Array	  , Vetor com os Itens Ordenados e Aglutinados
 /*/
-Static Function A100ItGrp( aAux, nAglutPed, nAglutArm, nPreSep )
+STATIC Function A100ItGrp( aAux, nAglutPed, nAglutArm, nPreSep )
 Local nInd		:= 0
 Local nPosSc9	:= 0
 Local nAuxVet 	:= 0
