@@ -934,6 +934,7 @@ If nMet == 1
 	WHERE
 		CB7.CB7_FILIAL = %xFilial:CB7%
 		AND CB7.CB7_STATUS	= '0'
+		AND CB7.CB7_ORDSEP	= '000014'
 		AND CB7.%NotDel%
 		%EXP:cWhere%
 	ORDER BY CB7_ORDSEP

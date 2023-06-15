@@ -31,8 +31,11 @@ Static Function ReportDef()
 	TRCell():New(xuserStock,"CB9_NUMSER"	  	,/*Tabela*/	,'SERIAL LEIDO',PesqPict("CB9","CB9_NUMSER")		,TamSx3("CB9_NUMSER")	 [1],/*lPixel*/,/*{|| (cAliasQry)->NIT }*/)
 	TRCell():New(xuserStock,"DB_NUMSERI"	  	,/*Tabela*/	,'SERIAL DESPACHADO',PesqPict("SDB","DB_NUMSERI")		,TamSx3("DB_NUMSERI")	 [1],/*lPixel*/,/*{|| (cAliasQry)->NIT }*/)
 	TRCell():New(xuserStock,"C5_CLIENTE"	  	,/*Tabela*/	,'CLIENTE',PesqPict("SC5","C5_CLIENTE")		,TamSx3("C5_CLIENTE")	 [1],/*lPixel*/,/*{|| (cAliasQry)->NIT }*/)
+	TRCell():New(xuserStock,"C5_LOJACLI"	  	,/*Tabela*/	,'TIENDA',PesqPict("SC5","C5_LOJACLI")		,TamSx3("C5_LOJACLI")	 [1],/*lPixel*/,/*{|| (cAliasQry)->NIT }*/)
 	TRCell():New(xuserStock,"CB8_PEDIDO"	  	,/*Tabela*/	,'PEDIDO',PesqPict("CB8","CB8_PEDIDO")		,TamSx3("CB8_PEDIDO")	 [1],/*lPixel*/,/*{|| (cAliasQry)->NIT }*/)
 	TRCell():New(xuserStock,"C5_EMISSAO"	  	,/*Tabela*/	,'FECHA PEDIDO',PesqPict("SC5","C5_EMISSAO")		,TamSx3("C5_EMISSAO")	 [1],/*lPixel*/,/*{|| (cAliasQry)->NIT }*/)
+	TRCell():New(xuserStock,"C5_XMUN"	  	,/*Tabela*/	,'MUN ENTREGA',PesqPict("SC5","C5_XMUN")		,TamSx3("C5_XMUN")	 [1],/*lPixel*/,/*{|| (cAliasQry)->NIT }*/)
+	TRCell():New(xuserStock,"C5_XESTNOM"	  	,/*Tabela*/	,'DEP ENTREGA',PesqPict("SC5","C5_XESTNOM")		,TamSx3("C5_XESTNOM")	 [1],/*lPixel*/,/*{|| (cAliasQry)->NIT }*/)
 	TRCell():New(xuserStock,"CB8_ORDSEP"	  	,/*Tabela*/	,'ORDEN SEPARA',PesqPict("CB8","CB8_ORDSEP")		,TamSx3("CB8_ORDSEP")	 [1],/*lPixel*/,/*{|| (cAliasQry)->NIT }*/)
 	TRCell():New(xuserStock,"CB7_STATUS"	  	,/*Tabela*/	,'ESTATUS',PesqPict("CB7","CB7_STATUS")		,TamSx3("CB7_STATUS")	 [1],/*lPixel*/,/*{|| (cAliasQry)->NIT }*/)
 	TRCell():New(xuserStock,"CB7_DTEMIS"	  	,/*Tabela*/	,'FECHA ORD SEP',PesqPict("CB7","CB7_DTEMIS")		,TamSx3("CB7_DTEMIS")	 [1],/*lPixel*/,/*{|| (cAliasQry)->NIT }*/)
@@ -55,13 +58,18 @@ Static Function ReportPrint(oReport)
 	oReport:Section(1):Cell("CB9_NUMSER" ):SetBlock({|| (cAliasQry)->SERIAL_CB9})
 	oReport:Section(1):Cell("DB_NUMSERI" ):SetBlock({|| (cAliasQry)->SERIAL_DB})
 	oReport:Section(1):Cell("C5_CLIENTE" ):SetBlock({|| (cAliasQry)->C5_CLIENTE})
+	oReport:Section(1):Cell("C5_LOJACLI" ):SetBlock({|| (cAliasQry)->C5_LOJACLI})
 	oReport:Section(1):Cell("CB8_PEDIDO" ):SetBlock({|| (cAliasQry)->PEDIDO})
 	oReport:Section(1):Cell("C5_EMISSAO" ):SetBlock({|| (cAliasQry)->C5_EMISSAO})
+	oReport:Section(1):Cell("C5_XMUN" ):SetBlock({|| (cAliasQry)->C5_XMUN})
+	oReport:Section(1):Cell("C5_XESTNOM" ):SetBlock({|| (cAliasQry)->C5_XESTNOM})
 	oReport:Section(1):Cell("CB8_ORDSEP" ):SetBlock({|| (cAliasQry)->ORD_SEPARACION})
 	oReport:Section(1):Cell("CB7_STATUS" ):SetBlock({|| TrdEstatus((cAliasQry)->ESTADO)})
 	oReport:Section(1):Cell("CB7_DTEMIS" ):SetBlock({|| (cAliasQry)->CB7_DTEMIS})
 	oReport:Section(1):Cell("DB_DOC" ):SetBlock({|| (cAliasQry)->REMITO})
 	oReport:Section(1):Cell("D2_DOC" ):SetBlock({|| (cAliasQry)->FACTURA})
+
+	
 
 
 	MakeSqlExpr(oReport:uParam)
@@ -86,6 +94,9 @@ Static Function ReportPrint(oReport)
 	cSql +="     CB8_ORDSEP ORD_SEPARACION, "
 	cSql +="     CB7_STATUS ESTADO, "
 	cSql +="     CB7_DTEMIS, "
+	cSql +="     C5_XMUN, "
+	cSql +="     C5_XESTNOM, "
+	cSql +="     C5_LOJACLI, "
 	cSql +="     DB_DOC REMITO, "
 	cSql +="     D2_DOC FACTURA "
 	cSql +=" FROM "
