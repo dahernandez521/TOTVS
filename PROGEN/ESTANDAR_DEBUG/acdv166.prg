@@ -5059,7 +5059,12 @@ If Empty(aItensDiverg)
 	Return
 EndIf
 
-Libera(aItensDiverg)  //Estorna a liberacao de credito/estoque dos itens divergentes ja liberados
+dbSelectArea("SC5")
+dbSetOrder(1)
+MsSeek(xFilial("SC5")+SC->C6_TES)
+// Libera(aItensDiverg)  //Estorna a liberacao de credito/estoque dos itens divergentes ja liberados
+MaGravaSc9(1,'','',@aLocal,@aEmpenho,(cAliasSB6)->B6_IDENT,bBlock,aEmpPronto,nQtdLib2,@nVlrCred)
+
 
 //---- Exclusao dos itens da Ordem de Separacao com divergencia (MV_DIVERPV):
 For i:=1 to len(aItensDiverg)

@@ -41,7 +41,7 @@ User Function UXSERVP()
     @ 122, 138 SAY oSay13 PROMPT "Servicio de ACD" SIZE 041, 010 OF oDlg COLORS 0, 16777215 PIXEL
     @ 120, 177 BUTTON oButton13 PROMPT "Start ACD" SIZE 035, 009 ACTION Processa( {|| USIACD() }, "Espere...", "Procesando...",.F.)  OF oDlg PIXEL
     @ 132, 019 SAY oSay9 PROMPT "Servicio REST" SIZE 055, 011 OF oDlg COLORS 0, 16777215 PIXEL
-    @ 130, 087 BUTTON oButton9 PROMPT "Start REST" SIZE 032, 009 ACTION Processa( {|| USICOLET() }, "Espere...", "Procesando...",.F.)  OF oDlg PIXEL
+    @ 130, 087 BUTTON oButton9 PROMPT "Start REST" SIZE 032, 009 ACTION Processa( {|| USIREST() }, "Espere...", "Procesando...",.F.)  OF oDlg PIXEL
    
 
     ACTIVATE MSDIALOG oDlg CENTERED
